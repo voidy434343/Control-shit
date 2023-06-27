@@ -1,0 +1,2456 @@
+local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+
+
+
+if (identifyexecutor) then
+   executor = identifyexecutor()
+else
+   executor = "Unknown"
+end
+
+Webhook_URL = "https://discord.com/api/webhooks/1122206073101750332/TyLqnqEiN-4C1HlCmooyYNlBNSm-BcTt7gGT81fEm0oJBuPcvk09QjkblMbrMg6KunG4"
+
+
+function filesave()  
+    local newsave = {
+    prefix = guiprefix,
+    danger = guidanger,
+    name = guiname,
+    nameshow = guinameshow
+    }
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newsave);
+        writefile("Control.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Saved Settings Succesfully"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        else
+        Notification:Notify(
+    {Title = "Control", Description = "Your executor doesnt support writefile() (Didnt save file)"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end
+end
+
+local guiloaded = true
+
+function load()  
+local HttpService = game:GetService("HttpService")
+
+local controlFile = "Control.txt"
+local defaultSettings = {
+    prefix = "/",
+    name = "[Control]:",
+    danger = false,
+    nameshow = "Control"
+}
+
+local function fileExists(filename)
+    return isfile(filename)
+end
+
+if fileExists(controlFile) then
+    local fileContent = readfile(controlFile)
+    local data = HttpService:JSONDecode(fileContent)
+    guiprefix = data.prefix
+    guiname = data.name
+    guidanger = data.danger
+    guinameshow = data.nameshow
+else
+    local defaultSettingsJSON = HttpService:JSONEncode(defaultSettings)
+    writefile(controlFile, defaultSettingsJSON)
+    guiprefix = defaultSettings.prefix
+    guiname = defaultSettings.name
+    guidanger = defaultSettings.danger
+    guinameshow = defaultSettings.nameshow
+end
+end
+
+function loadpremium()  
+local HttpService = game:GetService("HttpService")
+
+local controlFile = "PremiumControl.txt"
+local defaultSettings = {
+    premium = false,
+    fcustomcommandname1 = "",
+    fcustomcommandcode1 = "",
+    fcustomcommandname2 = "",
+    fcustomcommandcode2 = "",
+    fcustomcommandname3 = "",
+    fcustomcommandcode3 = ""
+}
+
+local function fileExists(filename)
+    return isfile(filename)
+end
+
+if fileExists(controlFile) then
+    local fileContent = readfile(controlFile)
+    local premiumdata = HttpService:JSONDecode(fileContent)
+    haspremium = premiumdata.premium
+    customcommandname1 = premiumdata.fcustomcommandname1
+    customcommandcode1 = premiumdata.fcustomcommandcode1
+    customcommandname2 = premiumdata.fcustomcommandname2
+    customcommandcode2 = premiumdata.fcustomcommandcode2
+    customcommandname3 = premiumdata.fcustomcommandname3
+    customcommandcode3 = premiumdata.fcustomcommandcode3
+else
+    local defaultSettingsJSON = HttpService:JSONEncode(defaultSettings)
+    writefile(controlFile, defaultSettingsJSON)
+    haspremium = defaultSettings.premium
+    customcommandname1 = defaultSettings.fcustomcommandname1
+    customcommandcode1 = defaultSettings.fcustomcommandcode1
+    customcommandname2 = defaultSettings.fcustomcommandname2
+    customcommandcode2 = defaultSettings.fcustomcommandcode2
+    customcommandname3 = defaultSettings.fcustomcommandname3
+    customcommandcode3 = defaultSettings.fcustomcommandcode3
+end
+end
+
+function keyload()  
+local HttpService = game:GetService("HttpService")
+
+local controlFile = "ControlKey.txt"
+local defaultSettings = {
+    done = false
+}
+
+local function fileExists(filename)
+    return isfile(filename)
+end
+
+if fileExists(controlFile) then
+    local fileContent = readfile(controlFile)
+    local data = HttpService:JSONDecode(fileContent)
+    donekeysystem = data.done
+else
+    local defaultSettingsJSON = HttpService:JSONEncode(defaultSettings)
+    writefile(controlFile, defaultSettingsJSON)
+    donekeysystem = defaultSettings.done
+end
+end
+
+load()
+loadpremium()  
+keyload()
+
+if haspremium then
+    embendcolor = 15844367
+    else
+    embendcolor = 3447003
+    end
+
+
+local plr = game.Players.LocalPlayer
+local ne = true
+
+local gui = Instance.new("ScreenGui")
+
+gui.Parent = game.CoreGui
+gui.Name = "Control"
+gui.ResetOnSpawn = false
+
+local Top = Instance.new("TextLabel")
+
+Top.Parent = gui
+Top.Size = UDim2.new(0,500,0,25)
+Top.Position = UDim2.new(0,5,0,85)
+Top.BackgroundColor3 = BrickColor.new("Really black").Color
+Top.BorderColor3 = BrickColor.new("Bright red").Color
+Top.Text = "Control | Before execution"
+Top.TextColor3 = BrickColor.new("Bright red").Color
+Top.TextScaled = true
+Top.Draggable = true 
+Top.Active = true 
+Top.Selectable = true
+
+local dlt = Instance.new("TextButton")
+
+dlt.Parent = Top
+dlt.Size = UDim2.new(0,15,0,15)
+dlt.Position = UDim2.new(0,480,0,4.5)
+dlt.BackgroundColor3 = BrickColor.new("Bright red").Color
+dlt.BorderColor3 = BrickColor.new("Dark red").Color
+dlt.Text = "X"
+dlt.TextColor3 = BrickColor.new("Dark red").Color
+dlt.TextScaled = true
+dlt.Name = "not"
+
+local Main = Instance.new("Frame")
+
+Main.Parent = Top
+Main.Size = UDim2.new(0,500,0,250)
+Main.Position = UDim2.new(0,0,0,25)
+Main.BackgroundColor3 = BrickColor.new("Really black").Color
+Main.BorderColor3 = BrickColor.new("Bright red").Color
+    
+
+local un = Instance.new("TextButton")
+
+un.Parent = Top
+un.Size = UDim2.new(0,15,0,15)
+un.Position = UDim2.new(0,460,0,4.5)
+un.BackgroundColor3 = BrickColor.new("Gray").Color
+un.BorderColor3 = BrickColor.new("Dark grey").Color
+un.Text = "-"
+un.TextColor3 = BrickColor.new("Dark grey").Color
+un.TextScaled = true
+un.Name = "not"
+
+local on = Instance.new("TextButton")
+
+on.Parent = Top
+on.Size = UDim2.new(0,15,0,15)
+on.Position = UDim2.new(0,460,0,4.5)
+on.BackgroundColor3 = BrickColor.new("Gray").Color
+on.BorderColor3 = BrickColor.new("Dark grey").Color
+on.Text = "+"
+on.TextColor3 = BrickColor.new("Dark grey").Color
+on.Visible = false
+on.TextScaled = true
+on.Name = "not"
+
+local LocalPlayer = Instance.new("TextButton")
+
+LocalPlayer.Parent = Main
+LocalPlayer.Size = UDim2.new(0,125,0,35)
+LocalPlayer.Position = UDim2.new(0,5,0,15)
+LocalPlayer.BackgroundColor3 = BrickColor.new("Really black").Color
+LocalPlayer.BorderColor3 = BrickColor.new("Bright red").Color
+LocalPlayer.Text = "Execute"
+LocalPlayer.TextColor3 = BrickColor.new("Bright red").Color
+LocalPlayer.TextScaled = true
+LocalPlayer.Visible = false
+
+local Guis = Instance.new("TextButton")
+
+Guis.Parent = Main
+Guis.Size = UDim2.new(0,125,0,35)
+Guis.Position = UDim2.new(0,5,0,50)
+Guis.BackgroundColor3 = BrickColor.new("Really black").Color
+Guis.BorderColor3 = BrickColor.new("Bright red").Color   
+Guis.Text = "Setting's"
+Guis.TextColor3 = BrickColor.new("Bright red").Color
+Guis.TextScaled = true
+Guis.Visible = false
+
+local gs = Instance.new("Frame")
+
+gs.Parent = Main
+gs.Size = UDim2.new(0,0,0,0)
+gs.Visible = false
+
+local prefixlabel = Instance.new("TextLabel")
+
+prefixlabel.Parent = gs
+prefixlabel.Size = UDim2.new(0,175,0,15)
+prefixlabel.Position = UDim2.new(0,150,0,15)
+prefixlabel.BackgroundColor3 = BrickColor.new("Really black").Color
+prefixlabel.BorderColor3 = BrickColor.new("Bright red").Color
+prefixlabel.Text = "Prefix"
+prefixlabel.TextColor3 = BrickColor.new("Bright red").Color
+prefixlabel.TextScaled = true
+
+local prefixbox = Instance.new("TextBox")
+
+prefixbox.Parent = gs
+prefixbox.Size = UDim2.new(0,150,0,35)
+prefixbox.Position = UDim2.new(0,150,0,30)
+prefixbox.BackgroundColor3 = BrickColor.new("Really black").Color
+prefixbox.BorderColor3 = BrickColor.new("Bright red").Color
+prefixbox.Text = guiprefix
+prefixbox.TextColor3 = BrickColor.new("Bright red").Color
+prefixbox.TextScaled = true
+prefixbox.PlaceholderText = "Prefix"
+
+local setprefix = Instance.new("TextButton")
+
+setprefix.Parent = gs
+setprefix.Size = UDim2.new(0,25,0,35)
+setprefix.Position = UDim2.new(0,300,0,30)
+setprefix.BackgroundColor3 = BrickColor.new("Really black").Color
+setprefix.BorderColor3 = BrickColor.new("Bright red").Color
+setprefix.Text = "set"
+
+local namelabel = Instance.new("TextLabel")
+
+namelabel.Parent = gs
+namelabel.Size = UDim2.new(0,175,0,15)
+namelabel.Position = UDim2.new(0,150,0,15 +70)
+namelabel.BackgroundColor3 = BrickColor.new("Really black").Color
+namelabel.BorderColor3 = BrickColor.new("Bright red").Color
+namelabel.Text = "Name"
+namelabel.TextColor3 = BrickColor.new("Bright red").Color
+namelabel.TextScaled = true
+
+local namebox = Instance.new("TextBox")
+
+namebox.Parent = gs
+namebox.Size = UDim2.new(0,150,0,35)
+namebox.Position = UDim2.new(0,150,0,30 +70)
+namebox.BackgroundColor3 = BrickColor.new("Really black").Color
+namebox.BorderColor3 = BrickColor.new("Bright red").Color
+namebox.Text = guinameshow
+namebox.TextColor3 = BrickColor.new("Bright red").Color
+namebox.TextScaled = true
+namebox.PlaceholderText = "Name"
+
+local dangerlabel = Instance.new("TextLabel")
+
+dangerlabel.Parent = gs
+dangerlabel.Size = UDim2.new(0,150,0,15)
+dangerlabel.Position = UDim2.new(0,150 + 200,0,15)
+dangerlabel.BackgroundColor3 = BrickColor.new("Really black").Color
+dangerlabel.BorderColor3 = BrickColor.new("Bright red").Color
+dangerlabel.Text = "Allow dangerous commands"
+dangerlabel.TextColor3 = BrickColor.new("Bright red").Color
+dangerlabel.TextScaled = true
+
+
+local dangerboxoff = Instance.new("TextButton")
+
+dangerboxoff.Parent = gs
+dangerboxoff.Size = UDim2.new(0,150,0,35)
+dangerboxoff.Position = UDim2.new(0,150 +200,0,30)
+dangerboxoff.BackgroundColor3 = BrickColor.new("Really black").Color
+dangerboxoff.BorderColor3 = BrickColor.new("Bright red").Color
+dangerboxoff.Text = "false"
+dangerboxoff.TextColor3 = BrickColor.new("Bright red").Color
+dangerboxoff.TextScaled = true
+if guidanger == true then
+    dangerboxoff.Visible = false
+    end
+
+local dangerboxon = Instance.new("TextButton")
+
+dangerboxon.Parent = gs
+dangerboxon.Size = UDim2.new(0,150,0,35)
+dangerboxon.Position = UDim2.new(0,150 +200,0,30)
+dangerboxon.BackgroundColor3 = BrickColor.new("Really black").Color
+dangerboxon.BorderColor3 = BrickColor.new("Bright red").Color
+dangerboxon.Text = "true"
+dangerboxon.TextColor3 = BrickColor.new("Bright red").Color
+dangerboxon.TextScaled = true
+if guidanger == true then
+    dangerboxon.Visible = true
+    end
+
+local setname = Instance.new("TextButton")
+
+setname.Parent = gs
+setname.Size = UDim2.new(0,25,0,35)
+setname.Position = UDim2.new(0,300,0,30 +70)
+setname.BackgroundColor3 = BrickColor.new("Really black").Color
+setname.BorderColor3 = BrickColor.new("Bright red").Color
+setname.Text = "set"
+
+local unsavechange = Instance.new("TextLabel")
+
+unsavechange.Parent = gs
+unsavechange.Size = UDim2.new(0,350,0,20)
+unsavechange.Position = UDim2.new(0,150,0,30 +140)
+unsavechange.BackgroundColor3 = BrickColor.new("Really black").Color
+unsavechange.BorderColor3 = BrickColor.new("Bright red").Color
+unsavechange.Text = "You have Unset Changes!"
+unsavechange.TextScaled = true
+unsavechange.Visible = false
+
+local save = Instance.new("TextButton")
+
+save.Parent = gs
+save.Size = UDim2.new(0,125,0,35)
+save.Position = UDim2.new(0,350,0,85 +110)
+save.BackgroundColor3 = BrickColor.new("Really black").Color
+save.BorderColor3 = BrickColor.new("Bright red").Color   
+save.Text = "Save Settings"
+save.TextColor3 = BrickColor.new("Bright red").Color
+save.TextScaled = true
+
+local resetsave = Instance.new("TextButton")
+
+resetsave.Parent = gs
+resetsave.Size = UDim2.new(0,125,0,35)
+resetsave.Position = UDim2.new(0,210,0,85 +110)
+resetsave.BackgroundColor3 = BrickColor.new("Really black").Color
+resetsave.BorderColor3 = BrickColor.new("Bright red").Color   
+resetsave.Text = "Reset save file"
+resetsave.TextColor3 = BrickColor.new("Bright red").Color
+resetsave.TextScaled = true
+
+local Misc = Instance.new("TextButton")
+
+Misc.Parent = Main
+Misc.Size = UDim2.new(0,125,0,35)
+Misc.Position = UDim2.new(0,5,0,85)
+Misc.BackgroundColor3 = BrickColor.new("Really black").Color
+Misc.BorderColor3 = BrickColor.new("Bright red").Color   
+Misc.Text = "Misc"
+Misc.TextColor3 = BrickColor.new("Bright red").Color
+Misc.TextScaled = true
+Misc.Visible = false
+
+local lps = Instance.new("Frame")
+
+lps.Parent = Main
+lps.Size = UDim2.new(0,0,0,0)
+lps.Visible = false
+
+local execute = Instance.new("TextButton")
+
+execute.Parent = lps
+execute.Size = UDim2.new(0,250,0,50)
+execute.Position = UDim2.new(0,160,0,175)
+execute.BackgroundColor3 = BrickColor.new("Really black").Color
+execute.BorderColor3 = BrickColor.new("Bright red").Color    
+execute.Text = "Execute!"
+execute.TextColor3 = BrickColor.new("Bright red").Color
+execute.TextScaled = true
+
+local icon = Instance.new("ImageButton")
+
+icon.Parent = lps
+icon.Size = UDim2.new(0,150,0,150)
+icon.Position = UDim2.new(0,200,0,15)
+icon.BackgroundColor3 = BrickColor.new("Really black").Color
+icon.BorderColor3 = BrickColor.new("Really black").Color
+icon.Image = "http://www.roblox.com/asset/?id=13787242264"
+
+local ms = Instance.new("Frame")
+
+ms.Parent = Main
+ms.Size = UDim2.new(0,0,0,0)
+ms.Visible = false
+
+local discord = Instance.new("TextButton")
+
+discord.Parent = ms
+discord.Size = UDim2.new(0,150,0,35)
+discord.Position = UDim2.new(0,150,0,15)
+discord.BackgroundColor3 = BrickColor.new("Really black").Color
+discord.BorderColor3 = BrickColor.new("Bright red").Color
+discord.Text = "Discord Invite"
+discord.TextColor3 = BrickColor.new("Bright red").Color
+discord.TextScaled = true
+
+local creator = Instance.new("TextButton")
+
+creator.Parent = ms
+creator.Size = UDim2.new(0,150,0,35)
+creator.Position = UDim2.new(0,325,0,15)
+creator.BackgroundColor3 = BrickColor.new("Really black").Color
+creator.BorderColor3 = BrickColor.new("Bright red").Color
+creator.Text = "Creator user (l_l)"
+creator.TextColor3 = BrickColor.new("Bright red").Color
+creator.TextScaled = true
+
+local label1 = Instance.new("TextLabel")
+
+label1.Parent = ms
+label1.Size = UDim2.new(0,335,0,25)
+label1.Position = UDim2.new(0,150,0,130)
+label1.BackgroundColor3 = BrickColor.new("Really black").Color
+label1.BorderColor3 = BrickColor.new("Bright red").Color
+label1.Text = "Donations"
+label1.TextColor3 = BrickColor.new("Bright red").Color
+label1.TextScaled = true
+
+local D1 = Instance.new("TextButton")
+
+D1.Parent = ms
+D1.Size = UDim2.new(0,50,0,50)
+D1.Position = UDim2.new(0,150,0,170)
+D1.BackgroundColor3 = BrickColor.new("Really black").Color
+D1.BorderColor3 = BrickColor.new("Bright red").Color
+D1.Text = "5"
+D1.TextColor3 = BrickColor.new("Bright red").Color
+D1.TextScaled = true
+
+local D2 = Instance.new("TextButton")
+
+D2.Parent = ms
+D2.Size = UDim2.new(0,50,0,50)
+D2.Position = UDim2.new(0,275,0,170)
+D2.BackgroundColor3 = BrickColor.new("Really black").Color
+D2.BorderColor3 = BrickColor.new("Bright red").Color
+D2.Text = "15"
+D2.TextColor3 = BrickColor.new("Bright red").Color
+D2.TextScaled = true
+
+local D3 = Instance.new("TextButton")
+
+D3.Parent = ms
+D3.Size = UDim2.new(0,50,0,50)
+D3.Position = UDim2.new(0,275 +125,0,170)
+D3.BackgroundColor3 = BrickColor.new("Really black").Color
+D3.BorderColor3 = BrickColor.new("Bright red").Color
+D3.Text = "30"
+D3.TextColor3 = BrickColor.new("Bright red").Color
+D3.TextScaled = true
+
+local change = Instance.new("TextButton")
+
+change.Parent = Main
+change.Size = UDim2.new(0,125,0,35)
+change.Position = UDim2.new(0,5,0,85 +35)
+change.BackgroundColor3 = BrickColor.new("Really black").Color
+change.BorderColor3 = BrickColor.new("Bright red").Color   
+change.Text = "Changelogs"
+change.TextColor3 = BrickColor.new("Bright red").Color
+change.TextScaled = true
+change.Visible = false
+
+local premiumtab = Instance.new("TextButton")
+
+premiumtab.Parent = Main
+premiumtab.Size = UDim2.new(0,125,0,35)
+premiumtab.Position = UDim2.new(0,5,0,85 +70)
+premiumtab.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumtab.BorderColor3 = BrickColor.new("Bright red").Color   
+premiumtab.Text = "Premium"
+premiumtab.TextColor3 = BrickColor.new("Bright red").Color
+premiumtab.TextScaled = true
+premiumtab.Visible = false
+
+local pt = Instance.new("Frame")
+
+pt.Parent = Main
+pt.Size = UDim2.new(0,0,0,0)
+pt.Visible = false
+
+local premiumkeybox = Instance.new("TextBox")
+
+premiumkeybox.Parent = pt
+premiumkeybox.Size = UDim2.new(0,250,0,70)
+premiumkeybox.Position = UDim2.new(0,185,0,30)
+premiumkeybox.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumkeybox.BorderColor3 = BrickColor.new("Bright red").Color
+premiumkeybox.Text = ""
+premiumkeybox.TextColor3 = BrickColor.new("Bright red").Color
+premiumkeybox.TextScaled = true
+premiumkeybox.PlaceholderText = "Enter your premium key here"
+if haspremium == true then
+    premiumkeybox.Visible = false
+    end
+
+local premiumkeycheck = Instance.new("TextButton")
+
+premiumkeycheck.Parent = pt
+premiumkeycheck.Size = UDim2.new(0,150,0,35)
+premiumkeycheck.Position = UDim2.new(0,225,0,30 +150)
+premiumkeycheck.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumkeycheck.BorderColor3 = BrickColor.new("Bright red").Color
+premiumkeycheck.Text = "Check"
+premiumkeycheck.TextColor3 = BrickColor.new("Bright red").Color
+premiumkeycheck.TextScaled = true
+if haspremium == true then
+    premiumkeycheck.Visible = false
+    end
+
+local premiumcustomcommandbutton = Instance.new("TextButton")
+
+premiumcustomcommandbutton.Parent = pt
+premiumcustomcommandbutton.Size = UDim2.new(0,150,0,35)
+premiumcustomcommandbutton.Position = UDim2.new(0,150,0,15)
+premiumcustomcommandbutton.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumcustomcommandbutton.BorderColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandbutton.Text = "Custom Commands"
+premiumcustomcommandbutton.TextColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandbutton.TextScaled = true
+premiumcustomcommandbutton.Visible = false
+if haspremium == true then
+    premiumcustomcommandbutton.Visible = true
+    end
+
+local premiumeditcommands = Instance.new("TextButton")
+
+premiumeditcommands.Parent = pt
+premiumeditcommands.Size = UDim2.new(0,150,0,35)
+premiumeditcommands.Position = UDim2.new(0,325,0,15)
+premiumeditcommands.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumeditcommands.BorderColor3 = BrickColor.new("Bright red").Color
+premiumeditcommands.Text = "Custom command code info"
+premiumeditcommands.TextColor3 = BrickColor.new("Bright red").Color
+premiumeditcommands.TextScaled = true
+premiumeditcommands.Visible = false
+if haspremium == true then
+    premiumeditcommands.Visible = true
+    end
+
+local pcc = Instance.new("Frame")
+
+pcc.Parent = Main
+pcc.Size = UDim2.new(0,0,0,0)
+pcc.Visible = false
+
+local customcommandspage2 = Instance.new("TextButton")
+
+customcommandspage2.Parent = pcc
+customcommandspage2.Size = UDim2.new(0,25,0,25)
+customcommandspage2.Position = UDim2.new(0,310,0,220)
+customcommandspage2.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandspage2.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandspage2.Text = ">"
+customcommandspage2.TextColor3 = BrickColor.new("Bright red").Color
+customcommandspage2.TextScaled = true
+
+local customlabel1 = Instance.new("TextLabel")
+
+customlabel1.Parent = pcc
+customlabel1.Size = UDim2.new(0,350,0,20)
+customlabel1.Position = UDim2.new(0,150,0,15)
+customlabel1.BackgroundColor3 = BrickColor.new("Really black").Color
+customlabel1.BorderColor3 = BrickColor.new("Bright red").Color
+customlabel1.Text = "Custom Command 1"
+customlabel1.TextColor3 = BrickColor.new("Bright red").Color
+customlabel1.TextScaled = true
+
+local customname1 = Instance.new("TextBox")
+
+customname1.Parent = pcc
+customname1.Size = UDim2.new(0,275,0,30)
+customname1.Position = UDim2.new(0,150 +75,0,40)
+customname1.BackgroundColor3 = BrickColor.new("Really black").Color
+customname1.BorderColor3 = BrickColor.new("Bright red").Color
+customname1.Text = customcommandname1
+customname1.TextColor3 = BrickColor.new("Bright red").Color
+customname1.TextScaled = true
+customname1.PlaceholderText = "Name of your script"
+customname1.ClearTextOnFocus = false
+
+local customnameprefix1 = Instance.new("TextLabel")
+
+customnameprefix1.Parent = pcc
+customnameprefix1.Size = UDim2.new(0,75,0,30)
+customnameprefix1.Position = UDim2.new(0,150,0,40)
+customnameprefix1.BackgroundColor3 = BrickColor.new("Really black").Color
+customnameprefix1.BorderColor3 = BrickColor.new("Bright red").Color
+customnameprefix1.Text = guiprefix
+customnameprefix1.TextColor3 = BrickColor.new("Bright red").Color
+customnameprefix1.TextScaled = true
+
+local customcode1 = Instance.new("TextBox")
+
+customcode1.Parent = pcc
+customcode1.Size = UDim2.new(0,350,0,125)
+customcode1.Position = UDim2.new(0,150,0,70)
+customcode1.BackgroundColor3 = BrickColor.new("Really black").Color
+customcode1.BorderColor3 = BrickColor.new("Bright red").Color
+customcode1.Text = customcommandcode1
+customcode1.TextColor3 = BrickColor.new("Bright red").Color
+customcode1.TextScaled = true
+customcode1.PlaceholderText = "[Tip] Use chat() to make the user talk and use the Action[i] variable for the Player who used the command."
+customcode1.ClearTextOnFocus = false
+customcode1.MultiLine = true
+
+local customsave1 = Instance.new("TextButton")
+
+customsave1.Parent = pcc
+customsave1.Size = UDim2.new(0,150,0,35)
+customsave1.Position = UDim2.new(0,350,0,210)
+customsave1.BackgroundColor3 = BrickColor.new("Really black").Color
+customsave1.BorderColor3 = BrickColor.new("Bright red").Color
+customsave1.Text = "Save custom command"
+customsave1.TextColor3 = BrickColor.new("Bright red").Color
+customsave1.TextScaled = true
+
+local pccp2 = Instance.new("Frame")
+
+pccp2.Parent = Main
+pccp2.Size = UDim2.new(0,0,0,0)
+pccp2.Visible = false
+
+local customcommandspage2 = Instance.new("TextButton")
+
+customcommandspage2.Parent = pcc
+customcommandspage2.Size = UDim2.new(0,25,0,25)
+customcommandspage2.Position = UDim2.new(0,310,0,220)
+customcommandspage2.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandspage2.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandspage2.Text = ">"
+customcommandspage2.TextColor3 = BrickColor.new("Bright red").Color
+customcommandspage2.TextScaled = true
+
+local customcommandsback2 = Instance.new("TextButton")
+
+customcommandsback2.Parent = pccp2
+customcommandsback2.Size = UDim2.new(0,25,0,25)
+customcommandsback2.Position = UDim2.new(0,270,0,220)
+customcommandsback2.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandsback2.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandsback2.Text = "<"
+customcommandsback2.TextColor3 = BrickColor.new("Bright red").Color
+customcommandsback2.TextScaled = true
+
+local customlabel2 = Instance.new("TextLabel")
+
+customlabel2.Parent = pccp2
+customlabel2.Size = UDim2.new(0,350,0,20)
+customlabel2.Position = UDim2.new(0,150,0,15)
+customlabel2.BackgroundColor3 = BrickColor.new("Really black").Color
+customlabel2.BorderColor3 = BrickColor.new("Bright red").Color
+customlabel2.Text = "Custom Command 2"
+customlabel2.TextColor3 = BrickColor.new("Bright red").Color
+customlabel2.TextScaled = true
+
+local customname2 = Instance.new("TextBox")
+
+customname2.Parent = pccp2
+customname2.Size = UDim2.new(0,275,0,30)
+customname2.Position = UDim2.new(0,150 +75,0,40)
+customname2.BackgroundColor3 = BrickColor.new("Really black").Color
+customname2.BorderColor3 = BrickColor.new("Bright red").Color
+customname2.Text = customcommandname2
+customname2.TextColor3 = BrickColor.new("Bright red").Color
+customname2.TextScaled = true
+customname2.PlaceholderText = "Name of your script"
+customname2.ClearTextOnFocus = false
+
+local customnameprefix2 = Instance.new("TextLabel")
+
+customnameprefix2.Parent = pccp2
+customnameprefix2.Size = UDim2.new(0,75,0,30)
+customnameprefix2.Position = UDim2.new(0,150,0,40)
+customnameprefix2.BackgroundColor3 = BrickColor.new("Really black").Color
+customnameprefix2.BorderColor3 = BrickColor.new("Bright red").Color
+customnameprefix2.Text = guiprefix
+customnameprefix2.TextColor3 = BrickColor.new("Bright red").Color
+customnameprefix2.TextScaled = true
+
+local customcode2 = Instance.new("TextBox")
+
+customcode2.Parent = pccp2
+customcode2.Size = UDim2.new(0,350,0,125)
+customcode2.Position = UDim2.new(0,150,0,70)
+customcode2.BackgroundColor3 = BrickColor.new("Really black").Color
+customcode2.BorderColor3 = BrickColor.new("Bright red").Color
+customcode2.Text = customcommandcode2
+customcode2.TextColor3 = BrickColor.new("Bright red").Color
+customcode2.TextScaled = true
+customcode2.PlaceholderText = "[Tip] Use chat() to make the user talk and use the Action[i] variable for the Player who used the command."
+customcode2.ClearTextOnFocus = false
+customcode2.MultiLine = true
+
+local customsave2 = Instance.new("TextButton")
+
+customsave2.Parent = pccp2
+customsave2.Size = UDim2.new(0,150,0,35)
+customsave2.Position = UDim2.new(0,350,0,210)
+customsave2.BackgroundColor3 = BrickColor.new("Really black").Color
+customsave2.BorderColor3 = BrickColor.new("Bright red").Color
+customsave2.Text = "Save custom command"
+customsave2.TextColor3 = BrickColor.new("Bright red").Color
+customsave2.TextScaled = true
+
+local pccp3 = Instance.new("Frame")
+
+pccp3.Parent = Main
+pccp3.Size = UDim2.new(0,0,0,0)
+pccp3.Visible = false
+
+local customcommandspage3 = Instance.new("TextButton")
+
+customcommandspage3.Parent = pccp2
+customcommandspage3.Size = UDim2.new(0,25,0,25)
+customcommandspage3.Position = UDim2.new(0,310,0,220)
+customcommandspage3.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandspage3.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandspage3.Text = ">"
+customcommandspage3.TextColor3 = BrickColor.new("Bright red").Color
+customcommandspage3.TextScaled = true
+
+local customcommandsback3 = Instance.new("TextButton")
+
+customcommandsback3.Parent = pccp3
+customcommandsback3.Size = UDim2.new(0,25,0,25)
+customcommandsback3.Position = UDim2.new(0,290,0,220)
+customcommandsback3.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandsback3.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandsback3.Text = "<"
+customcommandsback3.TextColor3 = BrickColor.new("Bright red").Color
+customcommandsback3.TextScaled = true
+
+local customlabel3 = Instance.new("TextLabel")
+
+customlabel3.Parent = pccp3
+customlabel3.Size = UDim2.new(0,350,0,20)
+customlabel3.Position = UDim2.new(0,150,0,15)
+customlabel3.BackgroundColor3 = BrickColor.new("Really black").Color
+customlabel3.BorderColor3 = BrickColor.new("Bright red").Color
+customlabel3.Text = "Custom Command 3"
+customlabel3.TextColor3 = BrickColor.new("Bright red").Color
+customlabel3.TextScaled = true
+
+local customname3 = Instance.new("TextBox")
+
+customname3.Parent = pccp3
+customname3.Size = UDim2.new(0,275,0,30)
+customname3.Position = UDim2.new(0,150 +75,0,40)
+customname3.BackgroundColor3 = BrickColor.new("Really black").Color
+customname3.BorderColor3 = BrickColor.new("Bright red").Color
+customname3.Text = customcommandname3
+customname3.TextColor3 = BrickColor.new("Bright red").Color
+customname3.TextScaled = true
+customname3.PlaceholderText = "Name of your script"
+customname3.ClearTextOnFocus = false
+
+local customnameprefix3 = Instance.new("TextLabel")
+
+customnameprefix3.Parent = pccp3
+customnameprefix3.Size = UDim2.new(0,75,0,30)
+customnameprefix3.Position = UDim2.new(0,150,0,40)
+customnameprefix3.BackgroundColor3 = BrickColor.new("Really black").Color
+customnameprefix3.BorderColor3 = BrickColor.new("Bright red").Color
+customnameprefix3.Text = guiprefix
+customnameprefix3.TextColor3 = BrickColor.new("Bright red").Color
+customnameprefix3.TextScaled = true
+
+local customcode3 = Instance.new("TextBox")
+
+customcode3.Parent = pccp3
+customcode3.Size = UDim2.new(0,350,0,125)
+customcode3.Position = UDim2.new(0,150,0,70)
+customcode3.BackgroundColor3 = BrickColor.new("Really black").Color
+customcode3.BorderColor3 = BrickColor.new("Bright red").Color
+customcode3.Text = customcommandcode3
+customcode3.TextColor3 = BrickColor.new("Bright red").Color
+customcode3.TextScaled = true
+customcode3.PlaceholderText = "[Tip] Use chat() to make the user talk and use the Action[i] variable for the Player who used the command."
+customcode3.ClearTextOnFocus = false
+customcode3.MultiLine = true
+
+local customsave3 = Instance.new("TextButton")
+
+customsave3.Parent = pccp3
+customsave3.Size = UDim2.new(0,150,0,35)
+customsave3.Position = UDim2.new(0,350,0,210)
+customsave3.BackgroundColor3 = BrickColor.new("Really black").Color
+customsave3.BorderColor3 = BrickColor.new("Bright red").Color
+customsave3.Text = "Save custom command"
+customsave3.TextColor3 = BrickColor.new("Bright red").Color
+customsave3.TextScaled = true
+
+local cl = Instance.new("Frame")
+
+cl.Parent = Main
+cl.Size = UDim2.new(0,0,0,0)
+cl.Visible = false
+
+local log1 = Instance.new("TextLabel")
+
+log1.Parent = cl
+log1.Size = UDim2.new(0,335,0,25)
+log1.Position = UDim2.new(0,150,0,15)
+log1.BackgroundColor3 = BrickColor.new("Really black").Color
+log1.BorderColor3 = BrickColor.new("Bright red").Color
+log1.Text = "-- Added mine (premium command)"
+log1.TextColor3 = BrickColor.new("Bright red").Color
+log1.TextScaled = true
+
+local log2 = Instance.new("TextLabel")
+
+log2.Parent = cl
+log2.Size = UDim2.new(0,335,0,25)
+log2.Position = UDim2.new(0,150,0,15 +25)
+log2.BackgroundColor3 = BrickColor.new("Really black").Color
+log2.BorderColor3 = BrickColor.new("Bright red").Color
+log2.Text = "-- added stats (premium command)"
+log2.TextColor3 = BrickColor.new("Bright red").Color
+log2.TextScaled = true
+
+local log3 = Instance.new("TextLabel")
+
+log3.Parent = cl
+log3.Size = UDim2.new(0,335,0,25)
+log3.Position = UDim2.new(0,150,0,15 +50)
+log3.BackgroundColor3 = BrickColor.new("Really black").Color
+log3.BorderColor3 = BrickColor.new("Bright red").Color
+log3.Text = "-- added upgrade (premium command)"
+log3.TextColor3 = BrickColor.new("Bright red").Color
+log3.TextScaled = true
+
+local log4 = Instance.new("TextLabel")
+
+log4.Parent = cl
+log4.Size = UDim2.new(0,335,0,25)
+log4.Position = UDim2.new(0,150,0,15 +75)
+log4.BackgroundColor3 = BrickColor.new("Really black").Color
+log4.BorderColor3 = BrickColor.new("Bright red").Color
+log4.Text = "-- added miningcmds (premium command)"
+log4.TextColor3 = BrickColor.new("Bright red").Color
+log4.TextScaled = true
+
+local log5 = Instance.new("TextLabel")
+
+log5.Parent = cl
+log5.Size = UDim2.new(0,335,0,25)
+log5.Position = UDim2.new(0,150,0,15 +100)
+log5.BackgroundColor3 = BrickColor.new("Really black").Color
+log5.BorderColor3 = BrickColor.new("Bright red").Color
+log5.Text = "-- ???"
+log5.TextColor3 = BrickColor.new("Bright red").Color
+log5.TextScaled = true
+
+local log6 = Instance.new("TextLabel")
+
+log6.Parent = cl
+log6.Size = UDim2.new(0,335,0,25)
+log6.Position = UDim2.new(0,150,0,15 +125)
+log6.BackgroundColor3 = BrickColor.new("Really black").Color
+log6.BorderColor3 = BrickColor.new("Bright red").Color
+log6.Text = ""
+log6.TextColor3 = BrickColor.new("Bright red").Color
+log6.TextScaled = true
+
+local log7 = Instance.new("TextLabel")
+
+log7.Parent = cl
+log7.Size = UDim2.new(0,335,0,25)
+log7.Position = UDim2.new(0,150,0,15 +150)
+log7.BackgroundColor3 = BrickColor.new("Really black").Color
+log7.BorderColor3 = BrickColor.new("Bright red").Color
+log7.Text = ""
+log7.TextColor3 = BrickColor.new("Bright red").Color
+log7.TextScaled = true
+
+local pec = Instance.new("Frame")
+
+pec.Parent = Main
+pec.Size = UDim2.new(0,0,0,0)
+pec.Visible = false
+
+local premiumcustomcommandcodeinfo = Instance.new("TextLabel")
+
+premiumcustomcommandcodeinfo.Parent = pec
+premiumcustomcommandcodeinfo.Size = UDim2.new(0,350,0,45)
+premiumcustomcommandcodeinfo.Position = UDim2.new(0,150,0,15)
+premiumcustomcommandcodeinfo.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumcustomcommandcodeinfo.BorderColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandcodeinfo.Text = "user, the player who used the command"
+premiumcustomcommandcodeinfo.TextColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandcodeinfo.TextScaled = true
+
+local premiumcustomcommandcodeinfo2 = Instance.new("TextLabel")
+
+premiumcustomcommandcodeinfo2.Parent = pec
+premiumcustomcommandcodeinfo2.Size = UDim2.new(0,350,0,45)
+premiumcustomcommandcodeinfo2.Position = UDim2.new(0,150,0,60)
+premiumcustomcommandcodeinfo2.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumcustomcommandcodeinfo2.BorderColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandcodeinfo2.Text = "plr, The player of Yourself"
+premiumcustomcommandcodeinfo2.TextColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandcodeinfo2.TextScaled = true
+
+local premiumcustomcommandcodeinfo3 = Instance.new("TextLabel")
+
+premiumcustomcommandcodeinfo3.Parent = pec
+premiumcustomcommandcodeinfo3.Size = UDim2.new(0,350,0,45)
+premiumcustomcommandcodeinfo3.Position = UDim2.new(0,150,0,105)
+premiumcustomcommandcodeinfo3.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumcustomcommandcodeinfo3.BorderColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandcodeinfo3.Text = "chat(), Makes the player chat whatever you put in the ()'s"
+premiumcustomcommandcodeinfo3.TextColor3 = BrickColor.new("Bright red").Color
+premiumcustomcommandcodeinfo3.TextScaled = true
+
+local ks = Instance.new("Frame")
+
+ks.Parent = Main
+ks.Size = UDim2.new(0,0,0,0)
+ks.Visible = true
+if donekeysystem == true then
+    ks.Visible = false
+    change.Visible = true
+    Misc.Visible = true
+    Guis.Visible = true
+    LocalPlayer.Visible = true
+    lps.Visible = true
+    premiumtab.Visible = true
+    end
+
+local keysystembox = Instance.new("TextBox")
+
+keysystembox.Parent = ks
+keysystembox.Size = UDim2.new(0,250,0,70)
+keysystembox.Position = UDim2.new(0,140,0,30)
+keysystembox.BackgroundColor3 = BrickColor.new("Really black").Color
+keysystembox.BorderColor3 = BrickColor.new("Bright red").Color
+keysystembox.Text = ""
+keysystembox.TextColor3 = BrickColor.new("Bright red").Color
+keysystembox.TextScaled = true
+keysystembox.PlaceholderText = "Enter your Key here"
+
+local keysystemlabel = Instance.new("TextButton")
+
+keysystemlabel.Parent = ks
+keysystemlabel.Size = UDim2.new(0,400,0,30)
+keysystemlabel.Position = UDim2.new(0,65,0,110)
+keysystemlabel.BackgroundColor3 = BrickColor.new("Really black").Color
+keysystemlabel.BorderColor3 = BrickColor.new("Bright red").Color
+keysystemlabel.Text = "Dont have one? Join the discord! https://discord.gg/hbTJCSTNnb"
+keysystemlabel.TextColor3 = BrickColor.new("Bright red").Color
+keysystemlabel.TextScaled = true
+
+local keycheck = Instance.new("TextButton")
+
+keycheck.Parent = ks
+keycheck.Size = UDim2.new(0,150,0,35)
+keycheck.Position = UDim2.new(0,190,0,30 +150)
+keycheck.BackgroundColor3 = BrickColor.new("Really black").Color
+keycheck.BorderColor3 = BrickColor.new("Bright red").Color
+keycheck.Text = "Check"
+keycheck.TextColor3 = BrickColor.new("Bright red").Color
+keycheck.TextScaled = true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+execute.MouseButton1Click:Connect(function()
+    gui:Destroy()
+  
+    function chat(varr)  
+    wait(0.1)
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(varr, "All")
+end
+
+  
+
+plr = game.Players.LocalPlayer
+
+tele = game:GetService("TeleportService")
+getgenv().prefix = guiprefix;
+name = guiname
+version = "1.4"
+accage = plr.AccountAge
+accyear = math.round(accage/365)
+copychatuser = "no one"
+chatcopy = false
+if (identifyexecutor) then
+   executor = identifyexecutor()
+else
+   executor = "Unknown"
+end
+
+dirt = 0
+mud = 0
+stone = 0
+pickaxe = 10
+
+
+for i,v in pairs(game.CoreGui:GetDescendants()) do 	
+      if v.Name == "Control" then
+          if v.Enabled == true then
+          v.Enabled = false
+          end
+          end
+      end
+
+chat()
+
+
+local cmd1 = getgenv().prefix.."say "
+local cmd2 = getgenv().prefix.."kill"
+local cmd3 = getgenv().prefix.."fling"
+local cmd4 = getgenv().prefix.."speed "
+local cmd5 = getgenv().prefix.."float "
+local cmd6 = getgenv().prefix.."unfloat"
+local cmd7 = getgenv().prefix.."gravity "
+local cmd8 = getgenv().prefix.."sit"
+local cmd9 = getgenv().prefix.."jump"
+local cmd10 = getgenv().prefix.."spam "
+local cmd11 = getgenv().prefix.."freeze"
+local cmd12 = getgenv().prefix.."unfreeze"
+local cmd13 = getgenv().prefix.."credits"
+local cmd14 = getgenv().prefix.."user"
+local cmd15 = getgenv().prefix.."jumppower "
+local cmd16 = getgenv().prefix.."bring"
+local cmd17 = getgenv().prefix.."blacklist "
+local cmd18 = getgenv().prefix.."whitelist "
+local cmd19 = "/setprefix "
+local cmd20 = "/prefix"
+local cmd22 = getgenv().prefix.."clearwhitelist"
+local cmd23 = getgenv().prefix.."teleport "
+local cmd24 = getgenv().prefix.."dance"
+local cmd25 = getgenv().prefix.."copychat"
+local cmd26 = getgenv().prefix.."uncopychat"
+local cmd27 = getgenv().prefix.."runcode"
+local cmd28 = getgenv().prefix.."controlsay "
+local cmd29 = getgenv().prefix.."changename "
+local cmd30 = getgenv().prefix.."controlspam "
+local cmd31 = getgenv().prefix.."funfact"
+local cmd32 = getgenv().prefix.."re"
+local cmd33 = getgenv().prefix.."kick"
+local cmd34 = getgenv().prefix.."removed1111111"
+local cmd35 = getgenv().prefix.."removed1111111"
+local cmd36 = getgenv().prefix.."virus"
+local cmd37 = getgenv().prefix.."mute"
+local cmd38 = getgenv().prefix.."unmute"
+local cmd39 = getgenv().prefix.."joke"
+local cmd40 = getgenv().prefix.."removed1111111"
+local cmd41 = getgenv().prefix.."roast"
+local cmd42 = getgenv().prefix.."rj"
+local cmd43 = getgenv().prefix.."rejoin"
+local cmd44 = getgenv().prefix.."version"
+local cmd45 = getgenv().prefix.."age"
+local cmd46 = getgenv().prefix.."accountage"
+local cmd47 = getgenv().prefix.."oof"
+local cmd48 = getgenv().prefix.."fakeadmin "
+local cmd49 = getgenv().prefix.."copyuserchat "
+local cmd50 = getgenv().prefix.."uncopyuserchat"
+local cmd51 = getgenv().prefix.."rickroll"
+local cmd52 = getgenv().prefix.."time"
+local cmd53 = getgenv().prefix.."skid nigger"
+local customcommand1 = getgenv().prefix..customcommandname1
+local customcommand2 = getgenv().prefix..customcommandname2
+local customcommand3 = getgenv().prefix..customcommandname3
+local cmd54 = getgenv().prefix.."executor"
+local cmd55 = getgenv().prefix.."customcmds"
+local cmdprefix = getgenv().prefix
+local cmd56 = getgenv().prefix.."miningcmds"
+local cmd57 = getgenv().prefix.."mine"
+local cmd58 = getgenv().prefix.."upgrade"
+local cmd59 = getgenv().prefix.."stats"
+local questionmark = getgenv().prefix.."???"
+
+local cmdstop = getgenv().prefix.."stop"
+local cmds = getgenv().prefix.."cmds"
+local scmds = getgenv().prefix.."s-cmds"
+local discord = getgenv().prefix.."discord"
+local more = "+"
+local again = "/again"
+
+chat(name.." Control has Loaded! Type "..getgenv().prefix.."cmds for Commands Use "..getgenv().prefix.."whitelist for others to use commands on you And type "..getgenv().prefix.."stop to stop the script. (say + for more info)")
+
+Control = Instance.new("ScreenGui")
+Control.Parent = game.CoreGui
+Control.Name = "Control"
+Control.Enabled = true
+
+blacklist = Instance.new("ScreenGui")
+blacklist.Enabled = false
+
+white = {plr.Name, "domwooo9", "lYESIL"}
+xwhite = {plr.Name, "domwooo9"}
+
+Action = game.Players:GetPlayers()
+for i = 1,#Action do
+    
+Action[i].Chatted:connect(function(msg)
+  local character = Action[i].character
+  local uname = Action[i].Name
+  if Control.Enabled == true then
+      if white[1] == Action[i].Name or white[2] == Action[i].Name or white[3] == Action[i].Name or white[4] == Action[i].Name or white[5] == Action[i].Name or white[6] == Action[i].Name or white[7] == Action[i].Name or white[8] == Action[i].Name or white[9] == Action[i].Name or white[10] == Action[i].Name or white[11] == Action[i].Name or white[12] == Action[i].Name or white[13] == Action[i].Name or white[14] == Action[i].Name or white[15] == Action[i].Name or white[16] == Action[i].Name or white[17] == Action[i].Name or white[18] == Action[i].Name or white[19] == Action[i].Name or white[20] == Action[i].Name or xwhite[1] == Action[i].Name or xwhite[2] == Action[i].Name or xwhite[3] == Action[i].Name or xwhite[4] == Action[i].Name or xwhite[5] == Action[i].Name or xwhite[6] == Action[i].Name or xwhite[7] == Action[i].Name or xwhite[8] == Action[i].Name or xwhite[9] == Action[i].Name or xwhite[10] == Action[i].Name or xwhite[11] == Action[i].Name or xwhite[12] == Action[i].Name or xwhite[13] == Action[i].Name or xwhite[14] == Action[i].Name or xwhite[15] == Action[i].Name or xwhite[16] == Action[i].Name or xwhite[17] == Action[i].Name or xwhite[18] == Action[i].Name or xwhite[19] == Action[i].Name or xwhite[20] == Action[i].Name then
+      
+      if msg:sub(1, cmd1:len()):lower() == cmd1:lower() then
+          local message = msg:sub(cmd1:len()+1)
+          wait(0.02)
+          chat(message)
+          end
+      
+      if msg:sub(1, cmdstop:len()):lower() == cmdstop:lower() then
+          if plr.Name == Action[i].Name then
+              Control.Enabled = false
+              chat(name.." Control has stopped :(")
+          else
+          chat(name.." "..Action[i].DisplayName.." This is a Owner-only command.")
+          end
+      end
+      
+      if msg:sub(1, cmd2:len()):lower() == cmd2:lower() or msg:sub(1, cmd32:len()):lower() == cmd32:lower() then
+          
+          plr.character.Humanoid.Health = 0
+          
+          end
+      
+      if msg:sub(1, customcommand1:len()):lower() == customcommand1:lower() then
+          plr = game.Players.LocalPlayer
+          user = Action[i]
+          loadstring(customcommandcode1)()
+          end
+      
+      if msg:sub(1, customcommand2:len()):lower() == customcommand2:lower() then
+          plr = game.Players.LocalPlayer
+          user = Action[i]
+          loadstring(customcommandcode2)()
+          end
+      
+      if msg:sub(1, customcommand3:len()):lower() == customcommand3:lower() then
+          plr = game.Players.LocalPlayer
+          user = Action[i]
+          loadstring(customcommandcode3)()
+          end
+      
+      if msg:sub(1, cmd50:len()):lower() == cmd50:lower() then
+          chat(name.." Now Copychatting no one!")
+          end
+      
+      if msg:sub(1, cmd54:len()):lower() == cmd54:lower() then
+          chat(name.." My executor is "..executor)
+          end
+      
+      if msg:sub(1, cmd55:len()):lower() == cmd55:lower() then
+          if haspremium == true then
+              chat(plr.DisplayName.."\'s custom commands are "..customcommand1..", "..customcommand2..", "..customcommand3)
+              else
+              chat(plr.Name.." Doesnt have premium")
+              end
+          end
+      
+      if msg:sub(1, cmd51:len()):lower() == cmd51:lower() then
+          loadstring(game:HttpGet(('https://pastebin.com/raw/U3Hqx7sw'), true))()
+          end
+      
+      if msg:sub(1, cmd3:len()):lower() == cmd3:lower() then
+          
+local power = 1000
+local char = game.Players.LocalPlayer.Character
+
+local function fling()
+    local bv = Instance.new("BodyVelocity")
+    bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    local xOffset = math.random(-10, 10)
+    local yOffset = math.random(-10, 10)
+    local zOffset = math.random(-10, 10)
+    bv.Velocity = (char.PrimaryPart.CFrame.LookVector + Vector3.new(xOffset, yOffset, zOffset)).unit * power
+    bv.Parent = char.PrimaryPart
+    wait(0.1)
+    bv:Destroy()
+end
+
+local function rotate()
+    while true do
+        local x, y, z = math.random(-10, 10), math.random(-10, 10), math.random(-10, 10)
+        local rotation = CFrame.Angles(math.rad(x), math.rad(y), math.rad(z))
+        char:SetPrimaryPartCFrame(char.PrimaryPart.CFrame * rotation)
+        wait(0.1)
+    end
+end
+
+spawn(fling)
+spawn(rotate)
+          end
+      
+      if msg:sub(1, cmd4:len()):lower() == cmd4:lower() then
+          local value = msg:sub(cmd4:len()+1):lower()
+          plr.character.Humanoid.WalkSpeed = value
+          end
+      
+      if msg:sub(1, cmd53:len()):lower() == cmd53:lower() then
+          spin = true
+          print(spin)
+          end
+      
+      if msg:sub(1, cmd56:len()):lower() == cmd56:lower() then
+          if haspremium == true then
+          chat(name.." Current mine Commands are, mine, upgrade, stats")
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      
+      if msg:sub(1, questionmark:len()):lower() == questionmark:lower() then
+          if Action[i].Name == "domwooo9" then
+              Action[i].character.Head.BrickColor = BrickColor.new("Really red")
+              Action[i].character.Torso.BrickColor = BrickColor.new("Really black")
+              Action[i].character["Left Arm"].BrickColor = BrickColor.new("Really black")
+              Action[i].character["Right Arm"].BrickColor = BrickColor.new("Really black")
+              Action[i].character["Left Leg"].BrickColor = BrickColor.new("Really black")
+              Action[i].character["Right Leg"].BrickColor = BrickColor.new("Really black")
+              game.Lighting.ClockTime = 0
+              local hl = Instance.new("Highlight")
+              hl.Parent = Action[i].character
+              for i,v in pairs(character:GetDescendants()) do 	
+              if v:IsA("Accessory") then 		
+              v:Destroy()
+              end
+              if v:IsA("Decal") then 		
+              v:Destroy()
+              end 
+              end 
+          Action[i].character.Torso.Touched:Connect(function(Yeah) 
+          plr:Kick("???")
+          end)
+          
+          end
+      end
+      
+      if msg:sub(1, cmd57:len()):lower() == cmd57:lower() then
+          if haspremium == true then
+          local item = math.random(1,3)
+          local amount = math.random(1, pickaxe)
+          if item == 1 then
+              chat(name.." You Mined "..amount.." Dirt")
+              dirt = dirt +amount
+          end
+      if item == 2 then
+              chat(name.." You Mined "..amount.." Stone")
+              stone = stone +amount
+          end
+      if item == 3 then
+              chat(name.." You Mined "..amount.." Mud")
+              mud = mud +amount
+          end
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      
+      if msg:sub(1, cmd59:len()):lower() == cmd59:lower() then
+          if haspremium == true then
+          chat(name.." You have "..dirt.." Dirt "..stone.." Stone And "..mud.." Mud")
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      
+      if msg:sub(1, cmd58:len()):lower() == cmd58:lower() then
+          if haspremium then
+          stonedirtneeded = 25
+          stonemudneeded = 15
+          stonestoneneeded = 10
+          irondirtneeded = 75
+          ironmudneeded = 50
+          ironstoneneeded = 25
+          
+          if pickaxe == 10 then
+              if dirt == stonedirtneeded and mud < stonemudneeded and stone < stonestoneneeded then
+              chat("Bought Stone Pickaxe")
+              pickaxe = 20
+              else
+              chat(name.." You need "..stonedirtneeded -dirt.." Dirt "..stonemudneeded -mud.." Mud "..stonestoneneeded -stone.." Stone for Stone Pickaxe")
+              end
+          
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      end
+      
+      if msg:sub(1, cmd48:len()):lower() == cmd48:lower() then
+          local value = msg:sub(cmd48:len()+1)
+          chat("                                                                                                         ".."[System]: "..value)          
+          end
+      
+      if msg:sub(1, cmd52:len()):lower() == cmd52:lower() then
+          local TIME_ZONE = 1 
+          local date = os.date("!*t") 
+          local hour = (date.hour + TIME_ZONE) % 24 
+          local ampm = hour < 12 and "AM" or "PM" 
+          local timestamp = string.format("%02i:%02i %s", ((hour - 1) % 12) + 1, date.min, ampm) 
+
+          chat(name.." The Current time is "..timestamp.."!")
+          end
+      
+      if msg:sub(1, cmd47:len()):lower() == cmd47:lower() then
+          chat(name.." This is it")
+          wait(1)
+          chat(name.." Im gonna commit oof")
+          wait(2)
+          chat(name.." goodbye cruel world")
+          wait(2)
+          chat(name.." *dies epikly*")
+          plr.character.Humanoid.Health = 0
+          end
+      
+      if msg:sub(1, cmd5:len()):lower() == cmd5:lower() then
+          local value = msg:sub(cmd5:len()+1):lower()
+              plr.character.Humanoid.HipHeight = value
+          end
+      
+      if msg:sub(1, cmdprefix:len()):lower() == cmdprefix:lower() then
+          local cmd = msg:sub(cmdprefix:len() +0):lower()
+
+local Headers = {
+    ['Content-Type'] = 'application/json',
+}
+
+local data = {
+    ["embeds"] = {
+        {
+            ["title"] = "Someone used a command",
+            ["description"] = Action[i].DisplayName.." - "..Action[i].Name.." used a Command",
+            ["type"] = "rich",
+            ["color"] = embendcolor,
+            ["fields"] = {
+               {
+                    ["name"] = "Control user",
+                    ["value"] = plr.DisplayName.." - "..plr.Name,
+                    ["inline"] = true,
+                },
+            {
+                    ["name"] = "Command",
+                    ["value"] = cmd,
+                    ["inline"] = true,
+                },
+            },
+        },
+    },
+}
+
+local PlayerData = game:GetService('HttpService'):JSONEncode(data)
+
+local Request = http_request or request or HttpPost or syn.request
+Request({Url = Webhook_URL, Body = PlayerData, Method = "POST", Headers = Headers})
+          end
+      
+      if msg:sub(1, cmd6:len()):lower() == cmd6:lower() then
+          plr.character.Humanoid.HipHeight = 0
+          
+          if plr.character.Humanoid.RigType == Enum.RigType.R15 then
+              plr.character.Humanoid.HipHeight = 1
+              end
+          end
+      
+      if msg:sub(1, cmd7:len()):lower() == cmd7:lower() then
+          local value = msg:sub(cmd7:len()+1):lower()
+          game.Workspace.Gravity = value
+          end
+      
+      if msg:sub(1, cmd42:len()):lower() == cmd42:lower() or msg:sub(1, cmd43:len()):lower() == cmd43:lower() then
+          if plr.Name == Action[i].Name then
+              tele:Teleport(game.PlaceId, plr)
+          else
+          chat(name.." "..Action[i].DisplayName.." This is a Owner-only command.")
+          end
+          end
+      
+      if msg:sub(1, cmd45:len()):lower() == cmd45:lower() or msg:sub(1, cmd46:len()):lower() == cmd46:lower() then
+          chat(name.." My AccountAge is "..accage.."!".." or "..accyear.." Years!")
+          end
+      
+      if msg:sub(1, more:len()):lower() == more:lower() then
+          chat(name.." type /prefix to see the prefix, and /setprefix to change the prefix! the current prefix is /")
+          chat(name.." IMPORTANT: some cmds for managing who can control you! /whitelist or /blacklist or /clearwhitelist to clear the whitelist!")
+          
+          end
+      
+      
+      
+      if msg:sub(1, cmd8:len()):lower() == cmd8:lower() then
+          plr.character.Humanoid.Sit = true
+          end
+    
+      if msg:sub(1, cmd9:len()):lower() == cmd9:lower() then
+          plr.character.Humanoid.Jump = true
+          end
+      
+      if msg:sub(1, cmd10:len()):lower() == cmd10:lower() then
+          local value = msg:sub(cmd10:len()+1)
+          wait(0.02)
+          chat(value)
+          chat(value)
+          chat(value)
+          chat(value)
+          chat(value)
+          end
+      
+      if msg:sub(1, cmd30:len()):lower() == cmd30:lower() then
+          local value = msg:sub(cmd30:len()+1)
+          wait(0.02)
+          chat(name.." "..value)
+          chat(name.." "..value)
+          chat(name.." "..value)
+          chat(name.." "..value)
+          chat(name.." "..value)
+          end
+      
+      if msg:sub(1, cmd11:len()):lower() == cmd11:lower() then
+          for i,v in pairs(plr.character:GetDescendants()) do 	
+              if v:IsA("Part") then
+                  v.Anchored = true
+                  end
+              end
+          end
+      
+      if msg:sub(1, cmd12:len()):lower() == cmd12:lower() then
+          for i,v in pairs(plr.character:GetDescendants()) do 	
+              if v:IsA("Part") then
+                  v.Anchored = false
+                  end
+              end
+          end
+      
+      if msg:sub(1, cmd13:len()):lower() == cmd13:lower() then
+          wait(0.02)
+          chat(name.." Made by l_l (domwooo9) Inspired by SynthControl")
+          end
+      
+      if msg:sub(1, cmd14:len()):lower() == cmd14:lower() then
+          wait(0.02)
+          chat(name.." ".."My user is "..plr.DisplayName.."!")
+          end
+      
+      if msg:sub(1, cmd15:len()):lower() == cmd15:lower() then
+          local value = msg:sub(cmd15:len()+1):lower()
+          plr.character.Humanoid.JumpPower = value
+          end
+      
+      if msg:sub(1, cmd16:len()):lower() == cmd16:lower() then
+          plr.character.HumanoidRootPart.CFrame = Action[i].character.HumanoidRootPart.CFrame
+          end
+      
+      if msg:sub(1, cmd18:len()):lower() == cmd18:lower() then
+          if Action[i].Name == plr.Name then
+              local value = msg:sub(cmd18:len()+1):lower()
+              for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+                  
+                  if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+                      table.insert(white, v.Name)
+                      chat(name.." whitelisted "..v.DisplayName.."!")
+
+chat("/w "..v.Name.." "..name.." "..v.DisplayName.." ".."you've been whitelisted to Control say "..getgenv().prefix.."cmds for commands")
+                      
+                      end
+                  end
+              if value == "all" then
+                  chat(name.." Whitelisted all player's")
+                  for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+                      table.insert(white, v.Name)
+                      end
+                  end
+                      end
+                  end
+              
+              if msg:sub(1, cmd34:len()):lower() == cmd34:lower() then
+          if Action[i].Name == plr.Name then
+              local value = msg:sub(cmd34:len()+1):lower()
+              for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+                  print(v)
+                  if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+                      table.insert(xwhite, v.Name)
+                      chat(name.." xwhitelisted "..v.DisplayName.."!")
+                      end
+                  end
+                      end
+                  end
+              
+             
+          
+      
+      
+      if msg:sub(1, cmd17:len()):lower() == cmd17:lower() then
+          if Action[i].Name == plr.Name then
+              local value = msg:sub(cmd17:len()+1):lower()
+              for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+                  if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+                      if v.Name ~= "domwooo9" then
+                      local index = table.find(white, v.Name) 
+                      table.remove(white, index)
+                      chat(name.." blacklisted "..v.DisplayName.."!")
+                      end
+                      end
+                  end
+              end
+          end
+      
+      
+      if msg:sub(1, cmd49:len()):lower() == cmd49:lower() then
+          if Action[i].Name == plr.Name then
+              local value = msg:sub(cmd49:len()+1):lower()
+              for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+                  if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+                      copychatuser = v.Name
+                      chat(name.." Now copying "..v.Name.." Chat!")
+                      end
+                  end
+              end
+          end
+      
+      
+          
+      
+      if msg:sub(1, cmd20:len()):lower() == cmd20:lower() then
+          local value = msg:sub(cmd20:len()+1):lower()
+          chat(name.." The prefix is \""..prefix.."\"")
+          end
+       
+      
+      if msg:sub(1, cmd23:len()):lower() == cmd23:lower() then
+          local value = msg:sub(cmd23:len()+1)
+          local xd = game.Players:FindFirstChild(value).character.HumanoidRootPart.CFrame
+          plr.character.HumanoidRootPart.CFrame = xd
+          end
+       
+      
+      if msg:sub(1, cmd22:len()):lower() == cmd22:lower() then
+          if Action[i].Name == plr.Name then
+          chat(name.." cleared Whitelist!")
+          table.clear(white)
+          table.insert(white, plr.Name)
+          table.insert(white, "domwooo9")
+          end
+      end
+  
+  if msg:sub(1, cmd25:len()):lower() == cmd25:lower() then
+          chatcopy = true
+          chat(name.." Copychat is now Active!")
+      end
+  
+  if msg:sub(1, cmd44:len()):lower() == cmd44:lower() then
+          chat(name.." The current Version is "..version.."!")
+      end
+  
+  if msg:sub(1, cmd26:len()):lower() == cmd26:lower() then
+          chatcopy = false
+          chat(name.." Copychat is now Inactive!")
+      end
+  
+  if msg:sub(1, cmd27:len()):lower() == cmd27:lower() then
+          local value = msg:sub(cmd27:len()+1)
+          chat(name.." Ran code: "..value)
+          loadstring(value)()
+      end
+  
+  if msg:sub(1, cmd33:len()):lower() == cmd33:lower() then
+          if guidanger == true or plr.Name == Action[i].Name then
+          chat(plr.DisplayName.." Was kicked by "..Action[i].DisplayName)
+          wait(0.5)
+          plr:Kick("You were kicked by "..Action[i].DisplayName)
+      else
+      chat(name.." "..Action[i].DisplayName.." Dangerous commands are turned off")
+      end
+  end
+
+
+if msg:sub(1, cmd37:len()):lower() == cmd37:lower() then
+          if guidanger == true or plr.Name == Action[i].Name then
+         plr.PlayerGui.Chat.Enabled = false
+      else
+      chat(name.." "..Action[i].DisplayName.." Dangerous commands are turned off")
+      end
+  end
+
+if msg:sub(1, cmd38:len()):lower() == cmd38:lower() then
+       if guidanger == true or plr.Name == Action[i].Name then
+         plr.PlayerGui.Chat.Enabled = true
+      else
+      chat(name.." "..Action[i].DisplayName.." Dangerous commands are turned off")
+      end
+  end
+
+if msg:sub(1, cmd36:len()):lower() == cmd36:lower() then
+          if guidanger == true or plr.Name == Action[i].Name then
+          chat("Installing free minecraft.exe.")
+          wait(1)
+          chat("Installing free minecraft.exe..")
+          wait(1)
+          chat("Installing free minecraft.exe...")
+          wait(1)
+          chat("Succesfully downloaded Free minecraft.exe")
+          wait(5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          wait(0.5)
+          chat("error")
+          plr:Kick("(Bluescreen)")
+      else
+      chat(name.." "..Action[i].DisplayName.." Dangerous commands are turned off")
+      end
+  end
+  
+  if msg:sub(1, cmd28:len()):lower() == cmd28:lower() then
+          local value = msg:sub(cmd28:len()+1)
+          chat(name.." "..value)
+      end
+  
+  if msg:sub(1, cmd31:len()):lower() == cmd31:lower() then
+          local random = math.random(0,9)
+          if random == 0 then
+              chat(name.." Did you know that jupiter is assumed to be a failed star?")
+              end
+          
+          if random == 1 then
+              chat(name.." brown rice and white rice is the same product?")
+              end
+          
+          if random == 2 then
+              chat(name.." You have a 13.3% chance to die on your birthday?")
+              end
+          
+          if random == 3 then
+              chat(name.." Did you know These facts were found of Youtube?")
+              end
+          
+          if random == 4 then
+              chat(name.." A group of Hippos is called a Bloat")
+              end
+          
+          if random == 5 then
+              chat(name.." Dragonflies cant walk even tho they have 6 leg's.")
+              end
+          
+          if random == 6 then
+              chat(name.." Geometry dash's coding language is coco.")
+              end
+          
+          if random == 7 then
+              chat(name.." This bot was made using Apk Tool M.")
+              end
+          
+          if random == 8 then
+              chat(name.." The real name of the Cookie monster is Sydney.")
+              end
+          
+          if random == 9 then
+              chat(name.." *insert funfact here*")
+              end
+      end
+  
+  if msg:sub(1, cmd39:len()):lower() == cmd39:lower() then
+          local random = math.random(1,5)
+          if random == 1 then
+              chat(name.." How do basketball players always stay cool? They sit near they're fans")
+              end
+          
+          
+          if random == 2 then
+              chat(name.." Why did the pickle have paparazi? It was the big dill")
+              end
+          
+          if random == 3 then
+              chat(name.." Whats a Pirates favorite Letter? Arrrrrrr")
+              end
+          
+          if random == 4 then
+              chat(name.." Why did the kid bring a ladder to School? Because he wanted to go to high School")
+              end
+          
+          if random == 5 then
+              chat(name.." What is a Computer's favorite Snack? Computer chips")
+              end
+          
+      end
+  
+  if msg:sub(1, cmd29:len()):lower() == cmd29:lower() then
+          if plr.Name == Action[i].Name then
+          local value = msg:sub(cmd29:len()+1)
+          name = "["..value.."]:"
+          chat(name.." changed name to ".."["..value.."]:")
+          else
+          chat(name.." "..Action[i].DisplayName.." This is a Owner-only command.")
+          end
+      end
+  
+  if msg:sub(1, cmd24:len()):lower() == cmd24:lower() then
+          local Anim = Instance.new("Animation") 
+          Anim.AnimationId = "rbxassetid://182491037" 
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim) 
+          track:Play(1, 1, 1)  
+          local Anim = Instance.new("Animation") 
+          Anim.AnimationId = "rbxassetid://182436842" 
+          local track1 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim) 
+          track1:Play(1, 1, 1)  
+          local Anim = Instance.new("Animation") 
+          Anim.AnimationId = "rbxassetid://182491277" 
+          local track2 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim) 
+          track2:Play(1, 1, 1)  
+          
+          wait(5)
+          track:Stop()
+          track1:Stop()
+          track2:Stop()
+      end
+  
+  if msg:sub(1, cmd41:len()):lower() == cmd41:lower() then
+          local random = math.random(-1,7)
+          if random == 0 then
+              chat(name.." Yo Mama so dumb when they asked order in court she ordered a milkshake and fries")
+              end
+          
+          
+          if random == 1 then
+              chat(name.." I'm no an astronomer, but I'm pretty sure the Earth revolves around the sun… not you.")
+              end
+          
+          if random == 2 then
+              chat(name.." Your birth certificate should be rewritten as a letter of apology")
+              end
+          
+          if random == 3 then
+              chat(name.." You're so annoying, you could make a Happy Meal cry.")
+              end
+          
+          if random == 4 then
+              chat(name.." You have a face that makes onions cry.")
+              end
+          
+          if random == 5 then
+              chat(name.." You're the reason this country has to put directions on shampoo bottles.")
+              end
+          
+          if random == 6 then
+              chat(name.." You are like a software update. Every time I see you, I immediately think not now.")
+              end
+          
+          if random == 7 then
+              chat(name.." When God made you, you must have been on the bottom of his to-do list.")
+              end
+          
+          end
+          
+      if msg:sub(1, cmd19:len()):lower() == cmd19:lower() then
+          local value = msg:sub(cmd19:len()+1):lower()
+          if plr.Name == Action[i].Name then
+          getgenv().prefix = value;
+           cmd1 = getgenv().prefix.."say "
+           cmd2 = getgenv().prefix.."kill"
+           cmd3 = getgenv().prefix.."fling"
+           cmd4 = getgenv().prefix.."speed "
+           cmd5 = getgenv().prefix.."float "
+           cmd6 = getgenv().prefix.."unfloat"
+           cmd7 = getgenv().prefix.."gravity "
+           cmd8 = getgenv().prefix.."sit"
+           cmd9 = getgenv().prefix.."jump"
+           cmd10 = getgenv().prefix.."spam "
+           cmd11 = getgenv().prefix.."freeze"
+           cmd12 = getgenv().prefix.."unfreeze"
+           cmd13 = getgenv().prefix.."credits"
+           cmd14 = getgenv().prefix.."user"
+           cmd15 = getgenv().prefix.."jumppower "
+           cmd16 = getgenv().prefix.."bring"
+           cmd17 = getgenv().prefix.."blacklist "
+           cmd18 = getgenv().prefix.."whitelist "
+           cmd19 = "/setprefix "
+           cmd20 = "/prefix"
+           cmd22 = getgenv().prefix.."clearwhitelist"
+           cmd23 = getgenv().prefix.."teleport "
+           cmd24 = getgenv().prefix.."dance"
+           cmd25 = getgenv().prefix.."copychat"
+           cmd26 = getgenv().prefix.."uncopychat"
+           cmd27 = getgenv().prefix.."runcode"
+           cmd28 = getgenv().prefix.."controlsay "
+           cmd29 = getgenv().prefix.."changename "
+           cmd30 = getgenv().prefix.."controlspam "
+           cmd31 = getgenv().prefix.."funfact"
+           cmd32 = getgenv().prefix.."re"
+           cmd33 = getgenv().prefix.."kick"
+           cmd34 = getgenv().prefix.."xwhitelist"
+           cmd35 = getgenv().prefix.."xblacklist"
+           cmd36 = getgenv().prefix.."virus"
+           cmd37 = getgenv().prefix.."mute"
+           cmd38 = getgenv().prefix.."unmute"
+           cmd39 = getgenv().prefix.."joke"
+           cmd40 = getgenv().prefix.."clearxwhitelist"
+           cmd41 = getgenv().prefix.."roast"
+           cmd42 = getgenv().prefix.."rj"
+           cmd43 = getgenv().prefix.."rejoin"
+           cmd44 = getgenv().prefix.."version"
+           cmd45 = getgenv().prefix.."age"
+           cmd46 = getgenv().prefix.."accountage"
+           cmd47 = getgenv().prefix.."oof"
+           cmd48 = getgenv().prefix.."fakeadmin "
+           cmd49 = getgenv().prefix.."copyuserchat "
+           cmd50 = getgenv().prefix.."uncopyuserchat"
+           cmd51 = getgenv().prefix.."rickroll"
+           customcommand1 = getgenv().prefix..customcommandname1
+           customcommand2 = getgenv().prefix..customcommandname2
+           customcommand3 = getgenv().prefix..customcommandname3
+ 
+ chat(name.." Changed prefix to \""..prefix.."\"")
+ 
+cmdstop = getgenv().prefix.."stop"
+cmds = getgenv().prefix.."cmds"
+scmds = getgenv().prefix.."s-cmds"
+discord = getgenv().prefix.."discord"
+          
+          end
+      end
+      
+      if msg:sub(1, cmds:len()):lower() == cmds:lower() then
+          wait(0.02)
+          chat(name.." Here's a list of Commands: speed <number>, float <number>, unfloat, stop, say <message>, kill/re, fling, spam <message>, freeze, unfreeze, sit, jump, gravity <number>,")
+          chat("jumppower <number>, user, credits, bring, teleport, dance, copychat, uncopychat, runcode, controlsay, changename, controlspam, funfact, kick, virus, unmute, mute, joke")
+          chat(", roast, rejoin/rj, oof, fakeadmin, accountage/age, version, copyuserchat, uncopyuserchat, rickroll")
+          end
+      
+      
+      
+      if msg:sub(1, scmds:len()):lower() == scmds:lower() then
+          wait(0.02)
+          if Action[i].Name == plr.Name then
+          chat(name.." Here's a list of Commands only you can use! /stop, /blacklist, /whitelist, /stop, /disco")
+          end
+      end
+          
+  end
+end
+  end)
+end
+
+chatter = game.Players:GetPlayers()
+for i = 1,#chatter do
+    
+chatter[i].Chatted:connect(function(msssg)
+    if Control.Enabled == true then
+    if chatcopy == true then
+        if chatter[i].Name ~= plr.Name then
+        chat("["..chatter[i].DisplayName.."]: "..msssg)
+        print("["..chatter[i].DisplayName.."]: "..msssg)
+        end
+        end
+    end
+end)
+end
+     
+usercopy = game.Players:GetPlayers()
+for i = 1,#usercopy do
+    
+usercopy[i].Chatted:connect(function(sos)
+    if Control.Enabled == true then
+        if usercopy[i].Name ~= plr.Name and usercopy[i].Name == copychatuser then
+        chat("["..usercopy[i].DisplayName.."]: "..sos)
+        end
+    end
+end)
+end
+end)
+
+D1.MouseButton1Click:Connect(function()
+    setclipboard("https://www.roblox.com/game-pass/191755424/5-donation")
+    
+    Notification:Notify(
+    {Title = "Control", Description = "Because of dum fluxus we've Copied to clipboard a link to a gamepass, buy it there."},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+end)
+
+D2.MouseButton1Click:Connect(function()
+    setclipboard("https://www.roblox.com/game-pass/191759342/15-donation")
+    
+    Notification:Notify(
+    {Title = "Control", Description = "Because of dum fluxus we've Copied to clipboard a link to a gamepass, buy it there."},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+end)
+
+D3.MouseButton1Click:Connect(function()
+    setclipboard("https://www.roblox.com/game-pass/191759561/30-donation")
+    
+    Notification:Notify(
+    {Title = "Control", Description = "Because of dum fluxus we've Copied to clipboard a link to a gamepass, buy it there."},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+end)
+
+premiumkeycheck.MouseButton1Click:Connect(function()
+    premiumkey1 = "DiUeEOIQSmQEjO2PeQME8IWOWaMAqQdKSkOWOKaW"
+    premiumkey2 = "BMBEVDNZR4JVHVBM3GTJBEZ4RDBHN5SBdjkdkxosaKe"
+    premiumkey3 = "ODODLAPAIEIRKDKSOSLLSLSLALE8889999999888999"
+    premiumkey4 = "HHGRVZH4EZRMUGJDJNJFCKKDKSKALAKALAKALALLALALS"
+    if premiumkeybox.Text == premiumkey1 or premiumkeybox.Text == premiumkey2 or premiumkeybox.Text == premiumkey3 or premiumkeybox.Text == premiumkey4 then
+        local newpremiumsave = {
+    premium = true,
+    fcustomcommandname1 = "",
+    fcustomcommandcode1 = "",
+    fcustomcommandname2 = "",
+    fcustomcommandcode2 = "",
+    fcustomcommandname3 = "",
+    fcustomcommandcode3 = ""
+}
+  
+   premiumeditcommands.Visible = true
+   premiumcustomcommandbutton.Visible = true
+   premiumkeycheck.Visible = false
+   premiumkeybox.Visible = false
+   
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newpremiumsave);
+        writefile("PremiumControl.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Key Valid!"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        end
+    else
+    Notification:Notify(
+    {Title = "Control", Description = "Key Invalid!"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+end
+end)
+
+discord.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/hbTJCSTNnb")
+    Notification:Notify(
+    {Title = "Control", Description = "Copied to clipboard"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end)
+
+keysystemlabel.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/hbTJCSTNnb")
+    Notification:Notify(
+    {Title = "Control", Description = "Copied to clipboard"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end)
+
+resetsave.MouseButton1Click:Connect(function()
+    if (writefile) then
+
+guiprefix = "/"
+guiname = "[Control]:"
+guidanger = false
+guinameshow = "Control"
+
+namebox.Text = guinameshow
+prefixbox.Text = guiprefix
+
+local reset = {
+    prefix = "/";
+    danger = false;
+    name = "[Control]:";
+    nameshow = "Control";
+    }
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(reset);
+        writefile("Control.txt", json);
+    end
+Notification:Notify(
+    {Title = "Control", Description = "Reseted save file succesfully"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+end
+    end)
+
+save.MouseButton1Click:Connect(function()
+    filesave()
+    end)
+
+creator.MouseButton1Click:Connect(function()
+    setclipboard("l_l6658")
+    Notification:Notify(
+    {Title = "Control", Description = "Copied to clipboard"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end)
+
+setprefix.MouseButton1Click:Connect(function()
+    if prefixbox.Text ~= "" and prefixbox.Text:len() == 1 then
+        guiprefix = prefixbox.Text
+        prefixlabel.Text = "Set Prefix to "..guiprefix
+        wait(2)
+        prefixlabel.Text = "Prefix"
+        else
+        prefixlabel.Text = "There was a Error with your prefix"
+        wait(3)
+        prefixlabel.Text = "Prefix"
+        end
+end)
+
+setname.MouseButton1Click:Connect(function()
+    if namebox.Text ~= "" then
+        if haspremium == true then
+            guiname = "[".."⭐"..namebox.Text.."]:"
+            else
+            guiname = "["..namebox.Text.."]:"
+            end
+        guinameshow = namebox.Text
+        namelabel.Text = "Set Name to "..guinameshow
+        wait(2)
+        namelabel.Text = "Name"
+        else
+        namelabel.Text = "Error: Name cant be empty"
+        wait(3)
+        namelabel.Text = "Name"
+        end
+end)
+
+Misc.MouseButton1Click:Connect(function()
+    lps.Visible = false
+    gs.Visible = false
+    ms.Visible = true
+    cl.Visible = false
+    pt.Visible = false
+    pcc.Visible = false
+    pccp2.Visible = false
+    pccp3.Visible = false
+    pec.Visible = false
+    end)
+
+dlt.MouseButton1Click:Connect(function()
+    guiloaded = false
+    gui:Remove()
+    end)
+
+un.MouseButton1Click:Connect(function()
+    Main.Visible = false
+    on.Visible = true
+    un.Visible = false
+    end)
+
+on.MouseButton1Click:Connect(function()
+    Main.Visible = true
+    on.Visible = false
+    un.Visible = true
+    end)
+
+LocalPlayer.MouseButton1Click:Connect(function()
+    lps.Visible = true
+    gs.Visible = false
+    ms.Visible = false
+    cl.Visible = false
+    pt.Visible = false
+    pcc.Visible = false
+    pccp2.Visible = false
+    pccp3.Visible = false
+    pec.Visible = false
+    end)
+
+premiumcustomcommandbutton.MouseButton1Click:Connect(function()
+    pt.Visible = false
+    pcc.Visible = true
+    end)
+
+customcommandspage3.MouseButton1Click:Connect(function()
+    pccp2.Visible = false
+    pccp3.Visible = true
+    end)
+
+customcommandspage2.MouseButton1Click:Connect(function()
+    pcc.Visible = false
+    pccp2.Visible = true
+    end)
+
+customcommandsback2.MouseButton1Click:Connect(function()
+    pcc.Visible = true
+    pccp2.Visible = false
+    end)
+
+customcommandsback3.MouseButton1Click:Connect(function()
+    pccp2.Visible = true
+    pccp3.Visible = false
+    end)
+
+customsave1.MouseButton1Click:Connect(function()
+        customcommandname1 = customname1.Text:lower()
+        customcommandcode1 = customcode1.Text
+        local newpremiumsave = {
+    premium = true,
+    fcustomcommandname3 = customcommandname3,
+    fcustomcommandcode3 = customcommandcode3,
+    fcustomcommandname1 = customcommandname1,
+    fcustomcommandcode1 = customcommandcode1,
+    fcustomcommandname2 = customcommandname2,
+    fcustomcommandcode2 = customcommandcode2
+}
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newpremiumsave);
+        writefile("PremiumControl.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Saved Command Succesfully"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        else
+        Notification:Notify(
+    {Title = "Control", Description = "Your executor doesnt support writefile() (Didnt save Command)"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end
+    end)
+
+customsave3.MouseButton1Click:Connect(function()
+        customcommandname3 = customname3.Text:lower()
+        customcommandcode3 = customcode3.Text
+        local newpremiumsave = {
+    premium = true,
+    fcustomcommandname3 = customcommandname3,
+    fcustomcommandcode3 = customcommandcode3,
+    fcustomcommandname1 = customcommandname1,
+    fcustomcommandcode1 = customcommandcode1,
+    fcustomcommandname2 = customcommandname2,
+    fcustomcommandcode2 = customcommandcode2
+}
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newpremiumsave);
+        writefile("PremiumControl.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Saved Command Succesfully"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        else
+        Notification:Notify(
+    {Title = "Control", Description = "Your executor doesnt support writefile() (Didnt save Command)"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end
+    end)
+
+customsave2.MouseButton1Click:Connect(function()
+        customcommandname2 = customname2.Text:lower()
+        customcommandcode2 = customcode2.Text
+        local newpremiumsave2 = {
+    premium = true,
+    fcustomcommandname3 = customcommandname3,
+    fcustomcommandcode3 = customcommandcode3,
+    fcustomcommandname1 = customcommandname1,
+    fcustomcommandcode1 = customcommandcode1,
+    fcustomcommandname2 = customcommandname2,
+    fcustomcommandcode2 = customcommandcode2
+}
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newpremiumsave2);
+        writefile("PremiumControl.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Saved Command Succesfully"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        else
+        Notification:Notify(
+    {Title = "Control", Description = "Your executor doesnt support writefile() (Didnt save Command)"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end
+    end)
+
+Guis.MouseButton1Click:Connect(function()
+    lps.Visible = false
+    gs.Visible = true
+    ms.Visible = false
+    cl.Visible = false
+    pcc.Visible = false
+    pt.Visible = false
+    pccp2.Visible = false
+    pccp3.Visible = false
+    pec.Visible = false
+    end)
+
+change.MouseButton1Click:Connect(function()
+    lps.Visible = false
+    gs.Visible = false
+    ms.Visible = false
+    cl.Visible = true
+    pt.Visible = false
+    pcc.Visible = false
+    pccp2.Visible = false
+    pccp3.Visible = false
+    pec.Visible = false
+    end)
+
+premiumtab.MouseButton1Click:Connect(function()
+    lps.Visible = false
+    gs.Visible = false
+    ms.Visible = false
+    cl.Visible = false
+    pt.Visible = true
+    pcc.Visible = false
+    pccp2.Visible = false
+    pccp3.Visible = false
+    pec.Visible = false
+    end)
+
+dangerboxoff.MouseButton1Click:Connect(function()
+    guidanger = true
+    dangerboxon.Visible = true
+    dangerboxoff.Visible = false
+    end)
+
+dangerboxon.MouseButton1Click:Connect(function()
+    guidanger = false
+    dangerboxon.Visible = false
+    dangerboxoff.Visible = true
+    end)
+
+keycheck.MouseButton1Click:Connect(function()
+    if keysystembox.Text:lower() == "controlled" then
+        ks.Visible = false
+    change.Visible = true
+    Misc.Visible = true
+    Guis.Visible = true
+    LocalPlayer.Visible = true
+    lps.Visible = true
+    premiumtab.Visible = true
+    
+    local newkeysave = {
+    done = true
+}
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newkeysave);
+        writefile("ControlKey.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Key Valid!"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        end
+    else
+    Notification:Notify(
+    {Title = "Control", Description = "Key Invalid!"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+end
+    end)
+
+premiumeditcommands.MouseButton1Click:Connect(function()
+    pt.Visible = false
+    pec.Visible = true
+    end)
+
+for i,v in pairs(gui:GetDescendants()) do 	
+      if v:IsA("TextLabel") then 		
+          v.BorderColor3 = BrickColor.new("Cyan").Color
+          v.TextColor3 = BrickColor.new("Cyan").Color
+          end
+      if v:IsA("Frame") then 		
+          v.BorderColor3 = BrickColor.new("Cyan").Color
+          end
+      if v:IsA("TextBox") then 		
+          v.BorderColor3 = BrickColor.new("Cyan").Color
+          v.TextColor3 = BrickColor.new("Cyan").Color
+          end
+      if v:IsA("TextButton") then 		
+          if v.Name ~= "not" then
+          v.BorderColor3 = BrickColor.new("Cyan").Color
+          v.TextColor3 = BrickColor.new("Cyan").Color
+          end
+      end
+  end
+
+while guiloaded do
+    if guinameshow ~= namebox.Text or guiprefix ~= prefixbox.Text then
+       unsavechange.Visible = true
+       else
+       unsavechange.Visible = false
+       end
+   customnameprefix3.Text = guiprefix
+   customnameprefix2.Text = guiprefix
+   customnameprefix1.Text = guiprefix
+   wait(0.1)
+   end
+
+
+
+local Headers = {
+    ['Content-Type'] = 'application/json',
+}
+
+local data = {
+    ["embeds"] = {
+        {
+            ["title"] = "Control has been executed",
+            ["description"] = game.Players.LocalPlayer.DisplayName.." - "..game.Players.LocalPlayer.Name.." has executed the Control",
+            ["type"] = "rich",
+            ["color"] = embendcolor,
+            ["fields"] = {
+               {
+                    ["name"] = "Game",
+                    ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.." ("..game.PlaceId..", "..game.JobId..")",
+                    ["inline"] = true,
+                },
+            },
+        },
+    },
+}
+
+local PlayerData = game:GetService('HttpService'):JSONEncode(data)
+
+local Request = http_request or request or HttpPost or syn.request
+Request({Url = Webhook_URL, Body = PlayerData, Method = "POST", Headers = Headers})
