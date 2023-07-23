@@ -9,9 +9,6 @@ else
    executor = "Unknown"
 end
 
-Webhook_URL = "https://discord.com/api/webhooks/1122206073101750332/TyLqnqEiN-4C1HlCmooyYNlBNSm-BcTt7gGT81fEm0oJBuPcvk09QjkblMbrMg6KunG4"
-
-
 function filesave()  
     local newsave = {
     prefix = guiprefix,
@@ -183,6 +180,10 @@ dlt.TextColor3 = BrickColor.new("Dark red").Color
 dlt.TextScaled = true
 dlt.Name = "not"
 
+local round1 = Instance.new("UICorner")
+round1.Parent = dlt
+round1.CornerRadius = UDim.new(0.2,0.2)
+
 local Main = Instance.new("Frame")
 
 Main.Parent = Top
@@ -204,6 +205,10 @@ un.TextColor3 = BrickColor.new("Dark grey").Color
 un.TextScaled = true
 un.Name = "not"
 
+local round2 = Instance.new("UICorner")
+round2.Parent = un
+round2.CornerRadius = UDim.new(0.2,0.2)
+
 local on = Instance.new("TextButton")
 
 on.Parent = Top
@@ -216,6 +221,10 @@ on.TextColor3 = BrickColor.new("Dark grey").Color
 on.Visible = false
 on.TextScaled = true
 on.Name = "not"
+
+local round3 = Instance.new("UICorner")
+round3.Parent = on
+round3.CornerRadius = UDim.new(0.2,0.2)
 
 local LocalPlayer = Instance.new("TextButton")
 
@@ -1156,7 +1165,12 @@ local questionmark = getgenv().prefix.."???"
 local cmd64 = getgenv().prefix.."rocket"
 local cmd65 = getgenv().prefix.."walkto"
 local cmd66 = getgenv().prefix.."askben "
-local cmd67 = getgenv().prefix..""
+local cmd67 = getgenv().prefix.."herojump"
+local cmd68 = getgenv().prefix.."barrelroll"
+local cmd69 = getgenv().prefix.."jumpingjacks"
+local cmd70 = getgenv().prefix.."floorcrawl"
+local cmd71 = getgenv().prefix.."headthrow"
+local cmd72 = getgenv().prefix.."moondance"
 
 local cmdstop = getgenv().prefix.."stop"
 local cmds = getgenv().prefix.."cmds"
@@ -1176,7 +1190,7 @@ blacklist = Instance.new("ScreenGui")
 blacklist.Enabled = false
 
 white = {plr.Name, "domwooo9", "lYESIL"}
-xwhite = {plr.Name, "domwooo9"}
+xwhite = {plr.Name, "domwooo9", "lYESIL"}
 
 Action = game.Players:GetPlayers()
 for i = 1,#Action do
@@ -1208,6 +1222,45 @@ Action[i].Chatted:connect(function(msg)
           
           end
       
+      if msg:sub(1, cmd67:len()):lower() == cmd67:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://184574340"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
+      if msg:sub(1, cmd69:len()):lower() == cmd69:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://429681631"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          wait(5)
+          track:Stop()
+          end
+      
+      if msg:sub(1, cmd70:len()):lower() == cmd70:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://282574440"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          wait(5)
+          track:Stop()
+          end
+      
+      if msg:sub(1, cmd71:len()):lower() == cmd71:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://35154961"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
+      if msg:sub(1, cmd72:len()):lower() == cmd72:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://45834924"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
       if msg:sub(1, customcommand1:len()):lower() == customcommand1:lower() then
           plr = game.Players.LocalPlayer
           user = Action[i]
@@ -1232,6 +1285,13 @@ Action[i].Chatted:connect(function(msg)
       
       if msg:sub(1, cmd54:len()):lower() == cmd54:lower() then
           chat(name.." My executor is "..executor)
+          end
+      
+      if msg:sub(1, cmd68:len()):lower() == cmd68:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://136801964"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
           end
       
       if msg:sub(1, cmd55:len()):lower() == cmd55:lower() then
@@ -1415,41 +1475,6 @@ spawn(rotate)
               plr.character.Humanoid.HipHeight = value
           end
       
-      if msg:sub(1, cmdprefix:len()):lower() == cmdprefix:lower() then
-          local cmd = msg:sub(cmdprefix:len() +0):lower()
-
-local Headers = {
-    ['Content-Type'] = 'application/json',
-}
-
-local data = {
-    ["embeds"] = {
-        {
-            ["title"] = "Someone used a command",
-            ["description"] = Action[i].DisplayName.." - "..Action[i].Name.." used a Command",
-            ["type"] = "rich",
-            ["color"] = embendcolor,
-            ["fields"] = {
-               {
-                    ["name"] = "Control user",
-                    ["value"] = plr.DisplayName.." - "..plr.Name,
-                    ["inline"] = true,
-                },
-            {
-                    ["name"] = "Command",
-                    ["value"] = cmd,
-                    ["inline"] = true,
-                },
-            },
-        },
-    },
-}
-
-local PlayerData = game:GetService('HttpService'):JSONEncode(data)
-
-local Request = http_request or request or HttpPost or syn.request
-Request({Url = Webhook_URL, Body = PlayerData, Method = "POST", Headers = Headers})
-          end
       
       if msg:sub(1, cmd6:len()):lower() == cmd6:lower() then
           plr.character.Humanoid.HipHeight = 0
@@ -1964,6 +1989,15 @@ if msg:sub(1, cmd36:len()):lower() == cmd36:lower() then
            customcommand1 = getgenv().prefix..customcommandname1
            customcommand2 = getgenv().prefix..customcommandname2
            customcommand3 = getgenv().prefix..customcommandname3
+           cmd64 = getgenv().prefix.."rocket"
+           cmd65 = getgenv().prefix.."walkto"
+           cmd66 = getgenv().prefix.."askben "
+           cmd67 = getgenv().prefix.."herojump"
+           cmd68 = getgenv().prefix.."barrelroll"
+           cmd69 = getgenv().prefix.."jumpingjacks"
+           cmd70 = getgenv().prefix.."floorcrawl"
+           cmd71 = getgenv().prefix.."headthrow"
+           cmd72 = getgenv().prefix.."moondance"
  
  chat(name.." Changed prefix to \""..prefix.."\"")
  
@@ -1979,7 +2013,8 @@ discord = getgenv().prefix.."discord"
           wait(0.02)
           chat(name.." Here's a list of Commands: speed <number>, float <number>, unfloat, stop, say <message>, kill/re, fling, spam <message>, freeze, unfreeze, sit, jump, gravity <number>,")
           chat("jumppower <number>, user, credits, bring, teleport, dance, copychat, uncopychat, runcode, controlsay, changename, controlspam, funfact, kick, virus, unmute, mute, joke")
-          chat(", roast, rejoin/rj, oof, fakeadmin, accountage/age, version, copyuserchat, uncopyuserchat, rickroll, boostfps, unrender, render")
+          chat("roast, rejoin/rj, oof, fakeadmin, accountage/age, version, copyuserchat, uncopyuserchat, rickroll, boostfps, unrender, render, askben, walkto, rocket, herojump, barrelroll")
+          chat("jumpingjacks, floorcrawl, headthrow, moondance")
           end
       
       
@@ -2742,32 +2777,3 @@ while guiloaded do
    customnameprefix1.Text = guiprefix
    wait(0.1)
    end
-
-
-
-local Headers = {
-    ['Content-Type'] = 'application/json',
-}
-
-local data = {
-    ["embeds"] = {
-        {
-            ["title"] = "Control has been executed",
-            ["description"] = game.Players.LocalPlayer.DisplayName.." - "..game.Players.LocalPlayer.Name.." has executed the Control",
-            ["type"] = "rich",
-            ["color"] = embendcolor,
-            ["fields"] = {
-               {
-                    ["name"] = "Game",
-                    ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.." ("..game.PlaceId..", "..game.JobId..")",
-                    ["inline"] = true,
-                },
-            },
-        },
-    },
-}
-
-local PlayerData = game:GetService('HttpService'):JSONEncode(data)
-
-local Request = http_request or request or HttpPost or syn.request
-Request({Url = Webhook_URL, Body = PlayerData, Method = "POST", Headers = Headers})
