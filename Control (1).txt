@@ -1,20 +1,21 @@
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
 
+guiloadsay = true
 
-
-
-premiumkey1 = "DiUeEOIQSmQEjO2PeQME8IWOWaMAqQdKSkOWOKaW"
-premiumkey2 = "BMBEVDNZR4JVHVBM3GTJBEZ4RDBHN5SBdjkdkxosaKe"
-premiumkey3 = "ODODLAPAIEIRKDKSOSLLSLSLALE8889999999888999"
-premiumkey4 = "HHGRVZH4EZRMUGJDJNJFCKKDKSKALAKALAKALALLALALS"
+if (identifyexecutor) then
+   executor = identifyexecutor()
+else
+   executor = "Unknown"
+end
 
 function filesave()  
     local newsave = {
-    prefix = guiprefix;
-    danger = guidanger;
-    name = guiname;
-    nameshow = guinameshow;
+    prefix = guiprefix,
+    danger = guidanger,
+    name = guiname,
+    nameshow = guinameshow,
+    whitelist = guiwhitelist
     }
     
     local json;
@@ -46,7 +47,8 @@ local defaultSettings = {
     prefix = "/",
     name = "[Control]:",
     danger = false,
-    nameshow = "Control"
+    nameshow = "Control",
+    whitelist = false
 }
 
 local function fileExists(filename)
@@ -60,6 +62,7 @@ if fileExists(controlFile) then
     guiname = data.name
     guidanger = data.danger
     guinameshow = data.nameshow
+    guiwhitelist = data.whitelist
 else
     local defaultSettingsJSON = HttpService:JSONEncode(defaultSettings)
     writefile(controlFile, defaultSettingsJSON)
@@ -67,6 +70,7 @@ else
     guiname = defaultSettings.name
     guidanger = defaultSettings.danger
     guinameshow = defaultSettings.nameshow
+    whitelist = defaultSettings.whitelist
 end
 end
 
@@ -81,7 +85,10 @@ local defaultSettings = {
     fcustomcommandname2 = "",
     fcustomcommandcode2 = "",
     fcustomcommandname3 = "",
-    fcustomcommandcode3 = ""
+    fcustomcommandcode3 = "",
+    vauto1 = "",
+    vauto2 = "",
+    vauto3 = ""
 }
 
 local function fileExists(filename)
@@ -98,6 +105,9 @@ if fileExists(controlFile) then
     customcommandcode2 = premiumdata.fcustomcommandcode2
     customcommandname3 = premiumdata.fcustomcommandname3
     customcommandcode3 = premiumdata.fcustomcommandcode3
+    auto1white = premiumdata.vauto1
+    auto2white = premiumdata.vauto2
+    auto3white = premiumdata.vauto3
 else
     local defaultSettingsJSON = HttpService:JSONEncode(defaultSettings)
     writefile(controlFile, defaultSettingsJSON)
@@ -108,6 +118,9 @@ else
     customcommandcode2 = defaultSettings.fcustomcommandcode2
     customcommandname3 = defaultSettings.fcustomcommandname3
     customcommandcode3 = defaultSettings.fcustomcommandcode3
+    auto1white = defaultSettings.vauto1
+    auto2white = defaultSettings.vauto2
+    auto3white = defaultSettings.vauto3
 end
 end
 
@@ -134,10 +147,13 @@ else
 end
 end
 
-load()
-loadpremium()  
-keyload()
-    
+if haspremium then
+    embendcolor = 15844367
+    else
+    embendcolor = 3447003
+    end
+
+
 local plr = game.Players.LocalPlayer
 local ne = true
 
@@ -173,6 +189,10 @@ dlt.TextColor3 = BrickColor.new("Dark red").Color
 dlt.TextScaled = true
 dlt.Name = "not"
 
+local round1 = Instance.new("UICorner")
+round1.Parent = dlt
+round1.CornerRadius = UDim.new(0.2,0.2)
+
 local Main = Instance.new("Frame")
 
 Main.Parent = Top
@@ -194,6 +214,10 @@ un.TextColor3 = BrickColor.new("Dark grey").Color
 un.TextScaled = true
 un.Name = "not"
 
+local round2 = Instance.new("UICorner")
+round2.Parent = un
+round2.CornerRadius = UDim.new(0.2,0.2)
+
 local on = Instance.new("TextButton")
 
 on.Parent = Top
@@ -207,6 +231,10 @@ on.Visible = false
 on.TextScaled = true
 on.Name = "not"
 
+local round3 = Instance.new("UICorner")
+round3.Parent = on
+round3.CornerRadius = UDim.new(0.2,0.2)
+
 local LocalPlayer = Instance.new("TextButton")
 
 LocalPlayer.Parent = Main
@@ -218,6 +246,59 @@ LocalPlayer.Text = "Execute"
 LocalPlayer.TextColor3 = BrickColor.new("Bright red").Color
 LocalPlayer.TextScaled = true
 LocalPlayer.Visible = false
+
+local lps = Instance.new("Frame")
+
+lps.Parent = Main
+lps.Size = UDim2.new(0,0,0,0)
+lps.Visible = false
+
+local execute = Instance.new("TextButton")
+
+execute.Parent = lps
+execute.Size = UDim2.new(0,250,0,50)
+execute.Position = UDim2.new(0,160,0,175)
+execute.BackgroundColor3 = BrickColor.new("Really black").Color
+execute.BorderColor3 = BrickColor.new("Bright red").Color    
+execute.Text = "Execute!"
+execute.TextColor3 = BrickColor.new("Bright red").Color
+execute.TextScaled = true
+
+local icon = Instance.new("ImageButton")
+
+icon.Parent = lps
+icon.Size = UDim2.new(0,150,0,150)
+icon.Position = UDim2.new(0,200,0,15)
+icon.BackgroundColor3 = BrickColor.new("Really black").Color
+icon.BorderColor3 = BrickColor.new("Really black").Color
+icon.Image = "http://www.roblox.com/asset/?id=13787242264"
+
+local scriptchoicenormal = Instance.new("TextButton")
+
+scriptchoicenormal.Parent = lps
+scriptchoicenormal.Size = UDim2.new(0,135,0,25)
+scriptchoicenormal.Position = UDim2.new(0,215,0,225)
+scriptchoicenormal.BackgroundColor3 = BrickColor.new("Really black").Color
+scriptchoicenormal.BorderColor3 = BrickColor.new("Really black").Color
+scriptchoicenormal.Text = "Script: Original"
+scriptchoicenormal.TextColor3 = BrickColor.new("Bright red").Color
+scriptchoicenormal.TextScaled = true
+
+local scriptchoiceai = Instance.new("TextButton")
+
+scriptchoiceai.Parent = lps
+scriptchoiceai.Size = UDim2.new(0,135,0,25)
+scriptchoiceai.Position = UDim2.new(0,215,0,225)
+scriptchoiceai.BackgroundColor3 = BrickColor.new("Really black").Color
+scriptchoiceai.BorderColor3 = BrickColor.new("Really black").Color
+scriptchoiceai.Text = "Script: AI"
+scriptchoiceai.TextColor3 = BrickColor.new("Bright red").Color
+scriptchoiceai.TextScaled = true
+scriptchoiceai.Visible = false
+
+load()
+loadpremium()  
+keyload()
 
 local Guis = Instance.new("TextButton")
 
@@ -236,6 +317,12 @@ local gs = Instance.new("Frame")
 gs.Parent = Main
 gs.Size = UDim2.new(0,0,0,0)
 gs.Visible = false
+
+local gs2 = Instance.new("Frame")
+
+gs2.Parent = Main
+gs2.Size = UDim2.new(0,0,0,0)
+gs2.Visible = false
 
 local prefixlabel = Instance.new("TextLabel")
 
@@ -317,6 +404,9 @@ dangerboxoff.TextScaled = true
 if guidanger == true then
     dangerboxoff.Visible = false
     end
+if guidanger == false then
+    dangerboxoff.Visible = true
+    end
 
 local dangerboxon = Instance.new("TextButton")
 
@@ -331,6 +421,63 @@ dangerboxon.TextScaled = true
 if guidanger == true then
     dangerboxon.Visible = true
     end
+if guidanger == false then
+    dangerboxon.Visible = false
+    end
+
+local whitelistallboxlabel = Instance.new("TextLabel")
+
+whitelistallboxlabel.Parent = gs
+whitelistallboxlabel.Size = UDim2.new(0,150,0,15)
+whitelistallboxlabel.Position = UDim2.new(0,150 +200,0,15 +70)
+whitelistallboxlabel.BackgroundColor3 = BrickColor.new("Really black").Color
+whitelistallboxlabel.BorderColor3 = BrickColor.new("Bright red").Color
+whitelistallboxlabel.Text = "Auto whitelist All?"
+whitelistallboxlabel.TextColor3 = BrickColor.new("Bright red").Color
+whitelistallboxlabel.TextScaled = true
+
+local whitelistallboxfalse = Instance.new("TextButton")
+
+whitelistallboxfalse.Parent = gs
+whitelistallboxfalse.Size = UDim2.new(0,150,0,35)
+whitelistallboxfalse.Position = UDim2.new(0,150 +200,0,30 +70)
+whitelistallboxfalse.BackgroundColor3 = BrickColor.new("Really black").Color
+whitelistallboxfalse.BorderColor3 = BrickColor.new("Bright red").Color
+whitelistallboxfalse.Text = "false"
+whitelistallboxfalse.TextColor3 = BrickColor.new("Bright red").Color
+whitelistallboxfalse.TextScaled = true
+if guiwhitelist then
+    whitelistallboxfalse.Visible = false
+    else
+    whitelistallboxfalse.Visible = true
+    end
+
+local whitelistallboxtrue = Instance.new("TextButton")
+
+whitelistallboxtrue.Parent = gs
+whitelistallboxtrue.Size = UDim2.new(0,150,0,35)
+whitelistallboxtrue.Position = UDim2.new(0,150 +200,0,30 +70)
+whitelistallboxtrue.BackgroundColor3 = BrickColor.new("Really black").Color
+whitelistallboxtrue.BorderColor3 = BrickColor.new("Bright red").Color
+whitelistallboxtrue.Text = "true"
+whitelistallboxtrue.TextColor3 = BrickColor.new("Bright red").Color
+whitelistallboxtrue.TextScaled = true
+if guiwhitelist then
+    whitelistallboxtrue.Visible = true
+    else
+    whitelistallboxtrue.Visible = false
+    end
+
+local settingspage2 = Instance.new("TextButton")
+
+settingspage2.Parent = gs
+settingspage2.Size = UDim2.new(0,25,0,25)
+settingspage2.Position = UDim2.new(0,450,0,160)
+settingspage2.BackgroundColor3 = BrickColor.new("Really black").Color
+settingspage2.BorderColor3 = BrickColor.new("Bright red").Color
+settingspage2.Text = ">"
+settingspage2.TextColor3 = BrickColor.new("Bright red").Color
+settingspage2.TextScaled = true
 
 local setname = Instance.new("TextButton")
 
@@ -340,6 +487,50 @@ setname.Position = UDim2.new(0,300,0,30 +70)
 setname.BackgroundColor3 = BrickColor.new("Really black").Color
 setname.BorderColor3 = BrickColor.new("Bright red").Color
 setname.Text = "set"
+
+local saylabel = Instance.new("TextLabel")
+
+saylabel.Parent = gs2
+saylabel.Size = UDim2.new(0,150,0,15)
+saylabel.Position = UDim2.new(0,150,0,15)
+saylabel.BackgroundColor3 = BrickColor.new("Really black").Color
+saylabel.BorderColor3 = BrickColor.new("Bright red").Color
+saylabel.Text = "Do the Loaded chat"
+saylabel.TextColor3 = BrickColor.new("Bright red").Color
+saylabel.TextScaled = true
+
+local saytrue = Instance.new("TextButton")
+
+saytrue.Parent = gs2
+saytrue.Size = UDim2.new(0,150,0,35)
+saytrue.Position = UDim2.new(0,150,0,30)
+saytrue.BackgroundColor3 = BrickColor.new("Really black").Color
+saytrue.BorderColor3 = BrickColor.new("Bright red").Color
+saytrue.Text = "true"
+saytrue.TextColor3 = BrickColor.new("Bright red").Color
+saytrue.TextScaled = true
+if guiloadsay then
+    saytrue.Visible = true
+    else
+    saytrue.Visible = false
+    end
+
+local sayfalse = Instance.new("TextButton")
+
+sayfalse.Parent = gs2
+sayfalse.Size = UDim2.new(0,150,0,35)
+sayfalse.Position = UDim2.new(0,150,0,30)
+sayfalse.BackgroundColor3 = BrickColor.new("Really black").Color
+sayfalse.BorderColor3 = BrickColor.new("Bright red").Color
+sayfalse.Text = "false"
+sayfalse.TextColor3 = BrickColor.new("Bright red").Color
+sayfalse.TextScaled = true
+sayfalse.Visible = false
+if guiloadsay then
+    sayfalse.Visible = false
+    else
+    sayfalse.Visible = true
+    end
 
 local unsavechange = Instance.new("TextLabel")
 
@@ -385,32 +576,6 @@ Misc.Text = "Misc"
 Misc.TextColor3 = BrickColor.new("Bright red").Color
 Misc.TextScaled = true
 Misc.Visible = false
-
-local lps = Instance.new("Frame")
-
-lps.Parent = Main
-lps.Size = UDim2.new(0,0,0,0)
-lps.Visible = false
-
-local execute = Instance.new("TextButton")
-
-execute.Parent = lps
-execute.Size = UDim2.new(0,250,0,50)
-execute.Position = UDim2.new(0,160,0,175)
-execute.BackgroundColor3 = BrickColor.new("Really black").Color
-execute.BorderColor3 = BrickColor.new("Bright red").Color    
-execute.Text = "Execute!"
-execute.TextColor3 = BrickColor.new("Bright red").Color
-execute.TextScaled = true
-
-local icon = Instance.new("ImageButton")
-
-icon.Parent = lps
-icon.Size = UDim2.new(0,150,0,150)
-icon.Position = UDim2.new(0,200,0,15)
-icon.BackgroundColor3 = BrickColor.new("Really black").Color
-icon.BorderColor3 = BrickColor.new("Really black").Color
-icon.Image = "http://www.roblox.com/asset/?id=13787242264"
 
 local ms = Instance.new("Frame")
 
@@ -558,6 +723,115 @@ if haspremium == true then
     premiumcustomcommandbutton.Visible = true
     end
 
+local premiumautowhitelistbutton = Instance.new("TextButton")
+
+premiumautowhitelistbutton.Parent = pt
+premiumautowhitelistbutton.Size = UDim2.new(0,150,0,35)
+premiumautowhitelistbutton.Position = UDim2.new(0,150,0,15 +55)
+premiumautowhitelistbutton.BackgroundColor3 = BrickColor.new("Really black").Color
+premiumautowhitelistbutton.BorderColor3 = BrickColor.new("Bright red").Color
+premiumautowhitelistbutton.Text = "Auto Whitelist"
+premiumautowhitelistbutton.TextColor3 = BrickColor.new("Bright red").Color
+premiumautowhitelistbutton.TextScaled = true
+premiumautowhitelistbutton.Visible = false
+if haspremium == true then
+    premiumautowhitelistbutton.Visible = true
+    end
+
+local aw = Instance.new("Frame")
+
+aw.Parent = Main
+aw.Size = UDim2.new(0,0,0,0)
+aw.Visible = false
+
+local autowhitelabel = Instance.new("TextLabel")
+
+autowhitelabel.Parent = aw
+autowhitelabel.Size = UDim2.new(0,300,0,50)
+autowhitelabel.Position = UDim2.new(0,160,0,10)
+autowhitelabel.BackgroundColor3 = BrickColor.new("Really black").Color
+autowhitelabel.BorderColor3 = BrickColor.new("Bright red").Color
+autowhitelabel.Text = "Player has to be in server to be in server to add"
+autowhitelabel.TextColor3 = BrickColor.new("Bright red").Color
+autowhitelabel.TextScaled = true
+
+local savewhite = Instance.new("TextButton")
+
+savewhite.Parent = aw
+savewhite.Size = UDim2.new(0,125,0,35)
+savewhite.Position = UDim2.new(0,350,0,85 +110)
+savewhite.BackgroundColor3 = BrickColor.new("Really black").Color
+savewhite.BorderColor3 = BrickColor.new("Bright red").Color   
+savewhite.Text = "Save whitelist"
+savewhite.TextColor3 = BrickColor.new("Bright red").Color
+savewhite.TextScaled = true
+
+local auto1 = Instance.new("TextBox")
+
+auto1.Parent = aw
+auto1.Size = UDim2.new(0,300,0,20)
+auto1.Position = UDim2.new(0,160,0,10 +80)
+auto1.BackgroundColor3 = BrickColor.new("Really black").Color
+auto1.BorderColor3 = BrickColor.new("Bright red").Color
+auto1.Text = auto1white
+auto1.TextColor3 = BrickColor.new("Bright red").Color
+auto1.TextScaled = true
+
+local autoset1 = Instance.new("TextButton")
+
+autoset1.Parent = aw
+autoset1.Size = UDim2.new(0,40,0,20)
+autoset1.Position = UDim2.new(0,460,0,10 +80)
+autoset1.BackgroundColor3 = BrickColor.new("Really black").Color
+autoset1.BorderColor3 = BrickColor.new("Bright red").Color
+autoset1.Text = "Set"
+autoset1.TextColor3 = BrickColor.new("Bright red").Color
+autoset1.TextScaled = true
+
+local auto2 = Instance.new("TextBox")
+
+auto2.Parent = aw
+auto2.Size = UDim2.new(0,300,0,20)
+auto2.Position = UDim2.new(0,160,0,10 +100)
+auto2.BackgroundColor3 = BrickColor.new("Really black").Color
+auto2.BorderColor3 = BrickColor.new("Bright red").Color
+auto2.Text = auto2white
+auto2.TextColor3 = BrickColor.new("Bright red").Color
+auto2.TextScaled = true
+
+local autoset2 = Instance.new("TextButton")
+
+autoset2.Parent = aw
+autoset2.Size = UDim2.new(0,40,0,20)
+autoset2.Position = UDim2.new(0,460,0,10 +100)
+autoset2.BackgroundColor3 = BrickColor.new("Really black").Color
+autoset2.BorderColor3 = BrickColor.new("Bright red").Color
+autoset2.Text = "Set"
+autoset2.TextColor3 = BrickColor.new("Bright red").Color
+autoset2.TextScaled = true
+
+local auto3 = Instance.new("TextBox")
+
+auto3.Parent = aw
+auto3.Size = UDim2.new(0,300,0,20)
+auto3.Position = UDim2.new(0,160,0,10 +120)
+auto3.BackgroundColor3 = BrickColor.new("Really black").Color
+auto3.BorderColor3 = BrickColor.new("Bright red").Color
+auto3.Text = auto3white
+auto3.TextColor3 = BrickColor.new("Bright red").Color
+auto3.TextScaled = true
+
+local autoset3 = Instance.new("TextButton")
+
+autoset3.Parent = aw
+autoset3.Size = UDim2.new(0,40,0,20)
+autoset3.Position = UDim2.new(0,460,0,10 +120)
+autoset3.BackgroundColor3 = BrickColor.new("Really black").Color
+autoset3.BorderColor3 = BrickColor.new("Bright red").Color
+autoset3.Text = "Set"
+autoset3.TextColor3 = BrickColor.new("Bright red").Color
+autoset3.TextScaled = true
+
 local premiumeditcommands = Instance.new("TextButton")
 
 premiumeditcommands.Parent = pt
@@ -667,6 +941,17 @@ customcommandspage2.Text = ">"
 customcommandspage2.TextColor3 = BrickColor.new("Bright red").Color
 customcommandspage2.TextScaled = true
 
+local customcommandsback2 = Instance.new("TextButton")
+
+customcommandsback2.Parent = pccp2
+customcommandsback2.Size = UDim2.new(0,25,0,25)
+customcommandsback2.Position = UDim2.new(0,270,0,220)
+customcommandsback2.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandsback2.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandsback2.Text = "<"
+customcommandsback2.TextColor3 = BrickColor.new("Bright red").Color
+customcommandsback2.TextScaled = true
+
 local customlabel2 = Instance.new("TextLabel")
 
 customlabel2.Parent = pccp2
@@ -744,6 +1029,17 @@ customcommandspage3.Text = ">"
 customcommandspage3.TextColor3 = BrickColor.new("Bright red").Color
 customcommandspage3.TextScaled = true
 
+local customcommandsback3 = Instance.new("TextButton")
+
+customcommandsback3.Parent = pccp3
+customcommandsback3.Size = UDim2.new(0,25,0,25)
+customcommandsback3.Position = UDim2.new(0,290,0,220)
+customcommandsback3.BackgroundColor3 = BrickColor.new("Really black").Color
+customcommandsback3.BorderColor3 = BrickColor.new("Bright red").Color
+customcommandsback3.Text = "<"
+customcommandsback3.TextColor3 = BrickColor.new("Bright red").Color
+customcommandsback3.TextScaled = true
+
 local customlabel3 = Instance.new("TextLabel")
 
 customlabel3.Parent = pccp3
@@ -817,7 +1113,7 @@ log1.Size = UDim2.new(0,335,0,25)
 log1.Position = UDim2.new(0,150,0,15)
 log1.BackgroundColor3 = BrickColor.new("Really black").Color
 log1.BorderColor3 = BrickColor.new("Bright red").Color
-log1.Text = "-- Added Premium"
+log1.Text = "-- Added jumpingjacks"
 log1.TextColor3 = BrickColor.new("Bright red").Color
 log1.TextScaled = true
 
@@ -828,7 +1124,7 @@ log2.Size = UDim2.new(0,335,0,25)
 log2.Position = UDim2.new(0,150,0,15 +25)
 log2.BackgroundColor3 = BrickColor.new("Really black").Color
 log2.BorderColor3 = BrickColor.new("Bright red").Color
-log2.Text = "-- added Custom commands (premium feature)"
+log2.Text = "-- Added barrelroll"
 log2.TextColor3 = BrickColor.new("Bright red").Color
 log2.TextScaled = true
 
@@ -839,7 +1135,7 @@ log3.Size = UDim2.new(0,335,0,25)
 log3.Position = UDim2.new(0,150,0,15 +50)
 log3.BackgroundColor3 = BrickColor.new("Really black").Color
 log3.BorderColor3 = BrickColor.new("Bright red").Color
-log3.Text = "-- Added Key system :("
+log3.Text = "-- Added herojump"
 log3.TextColor3 = BrickColor.new("Bright red").Color
 log3.TextScaled = true
 
@@ -850,7 +1146,7 @@ log4.Size = UDim2.new(0,335,0,25)
 log4.Position = UDim2.new(0,150,0,15 +75)
 log4.BackgroundColor3 = BrickColor.new("Really black").Color
 log4.BorderColor3 = BrickColor.new("Bright red").Color
-log4.Text = ""
+log4.Text = "-- Added floorcrawl"
 log4.TextColor3 = BrickColor.new("Bright red").Color
 log4.TextScaled = true
 
@@ -861,7 +1157,7 @@ log5.Size = UDim2.new(0,335,0,25)
 log5.Position = UDim2.new(0,150,0,15 +100)
 log5.BackgroundColor3 = BrickColor.new("Really black").Color
 log5.BorderColor3 = BrickColor.new("Bright red").Color
-log5.Text = ""
+log5.Text = "-- Added headthrow"
 log5.TextColor3 = BrickColor.new("Bright red").Color
 log5.TextScaled = true
 
@@ -872,7 +1168,7 @@ log6.Size = UDim2.new(0,335,0,25)
 log6.Position = UDim2.new(0,150,0,15 +125)
 log6.BackgroundColor3 = BrickColor.new("Really black").Color
 log6.BorderColor3 = BrickColor.new("Bright red").Color
-log6.Text = ""
+log6.Text = "Added moondance"
 log6.TextColor3 = BrickColor.new("Bright red").Color
 log6.TextScaled = true
 
@@ -989,19 +1285,10 @@ keycheck.TextScaled = true
 
 
 
-
-
-
-
-
-
-
-
-
-
 execute.MouseButton1Click:Connect(function()
     gui:Destroy()
   
+    if scriptchoicenormal.Visible == true then
     function chat(varr)  
     wait(0.1)
     game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(varr, "All")
@@ -1014,7 +1301,7 @@ plr = game.Players.LocalPlayer
 tele = game:GetService("TeleportService")
 getgenv().prefix = guiprefix;
 name = guiname
-version = "1.4"
+version = "1.9"
 accage = plr.AccountAge
 accyear = math.round(accage/365)
 copychatuser = "no one"
@@ -1025,6 +1312,12 @@ else
    executor = "Unknown"
 end
 
+dirt = 0
+mud = 0
+stone = 0
+pickaxe = 10
+
+
 for i,v in pairs(game.CoreGui:GetDescendants()) do 	
       if v.Name == "Control" then
           if v.Enabled == true then
@@ -1032,9 +1325,7 @@ for i,v in pairs(game.CoreGui:GetDescendants()) do
           end
           end
       end
-
-chat()
-
+ 
 
 local cmd1 = getgenv().prefix.."say "
 local cmd2 = getgenv().prefix.."kill"
@@ -1093,6 +1384,24 @@ local customcommand2 = getgenv().prefix..customcommandname2
 local customcommand3 = getgenv().prefix..customcommandname3
 local cmd54 = getgenv().prefix.."executor"
 local cmd55 = getgenv().prefix.."customcmds"
+local cmdprefix = getgenv().prefix
+local cmd56 = getgenv().prefix.."miningcmds"
+local cmd57 = getgenv().prefix.."mine"
+local cmd58 = getgenv().prefix.."upgrade"
+local cmd59 = getgenv().prefix.."stats"
+local cmd60 = getgenv().prefix.."boostfps"
+local cmd61 = getgenv().prefix.."unrender"
+local cmd62 = getgenv().prefix.."render"
+local questionmark = getgenv().prefix.."???"
+local cmd64 = getgenv().prefix.."rocket"
+local cmd65 = getgenv().prefix.."walkto"
+local cmd66 = getgenv().prefix.."askben "
+local cmd67 = getgenv().prefix.."herojump"
+local cmd68 = getgenv().prefix.."barrelroll"
+local cmd69 = getgenv().prefix.."jumpingjacks"
+local cmd70 = getgenv().prefix.."floorcrawl"
+local cmd71 = getgenv().prefix.."headthrow"
+local cmd72 = getgenv().prefix.."moondance"
 
 local cmdstop = getgenv().prefix.."stop"
 local cmds = getgenv().prefix.."cmds"
@@ -1101,7 +1410,9 @@ local discord = getgenv().prefix.."discord"
 local more = "+"
 local again = "/again"
 
-chat(name.." Control has Loaded! Type "..getgenv().prefix.."cmds for Commands Use "..getgenv().prefix.."whitelist for others to use commands on you And type "..getgenv().prefix.."stop to stop the script. (say + for more info)")
+if guiloadsay then
+   chat(name.." Control has Loaded! Type "..getgenv().prefix.."cmds for Commands Use "..getgenv().prefix.."whitelist for others to use commands on you And type "..getgenv().prefix.."stop to stop the script. (say + for more info)")
+end
 
 Control = Instance.new("ScreenGui")
 Control.Parent = game.CoreGui
@@ -1111,8 +1422,14 @@ Control.Enabled = true
 blacklist = Instance.new("ScreenGui")
 blacklist.Enabled = false
 
-white = {plr.Name, "domwooo9"}
-xwhite = {plr.Name, "domwooo9"}
+white = {plr.Name, "domwooo9", "lYESIL", auto2white, auto3white, auto1white}
+xwhite = {}
+
+if guiwhitelist then
+    for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+       table.insert(white, v.Name)
+    end
+end
 
 Action = game.Players:GetPlayers()
 for i = 1,#Action do
@@ -1144,6 +1461,45 @@ Action[i].Chatted:connect(function(msg)
           
           end
       
+      if msg:sub(1, cmd67:len()):lower() == cmd67:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://184574340"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
+      if msg:sub(1, cmd69:len()):lower() == cmd69:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://429681631"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          wait(5)
+          track:Stop()
+          end
+      
+      if msg:sub(1, cmd70:len()):lower() == cmd70:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://282574440"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          wait(5)
+          track:Stop()
+          end
+      
+      if msg:sub(1, cmd71:len()):lower() == cmd71:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://35154961"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
+      if msg:sub(1, cmd72:len()):lower() == cmd72:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://45834924"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
       if msg:sub(1, customcommand1:len()):lower() == customcommand1:lower() then
           plr = game.Players.LocalPlayer
           user = Action[i]
@@ -1170,6 +1526,13 @@ Action[i].Chatted:connect(function(msg)
           chat(name.." My executor is "..executor)
           end
       
+      if msg:sub(1, cmd68:len()):lower() == cmd68:lower() then
+          local Anim = Instance.new("Animation")
+          Anim.AnimationId = "rbxassetid://136801964"
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+          track:Play(.1, 1, 1)
+          end
+      
       if msg:sub(1, cmd55:len()):lower() == cmd55:lower() then
           if haspremium == true then
               chat(plr.DisplayName.."\'s custom commands are "..customcommand1..", "..customcommand2..", "..customcommand3)
@@ -1178,9 +1541,21 @@ Action[i].Chatted:connect(function(msg)
               end
           end
       
-      if msg:sub(1, cmd51:len()):lower() == cmd51:lower() then
-          loadstring(game:HttpGet(('https://pastebin.com/raw/U3Hqx7sw'), true))()
+    if msg:sub(1, cmd51:len()):lower() == cmd51:lower() then
+        loadstring(game:HttpGet(('https://raw.githubusercontent.com/CatHead132/CatHub/main/rick.lua'), true))()
           end
+    
+    if msg:sub(1, cmd60:len()):lower() == cmd60:lower() then
+        loadstring(game:HttpGet(('https://raw.githubusercontent.com/CatHead132/CatHub/main/asdsdılcszx.lua'), true))()
+        end
+
+    if msg:sub(1, cmd61:len()):lower() == cmd61:lower() then
+        game:GetService("RunService"):Set3dRenderingEnabled(false)
+    end
+
+    if msg:sub(1, cmd62:len()):lower() == cmd62:lower() then
+        game:GetService("RunService"):Set3dRenderingEnabled(true)
+        end        
       
       if msg:sub(1, cmd3:len()):lower() == cmd3:lower() then
           
@@ -1222,9 +1597,95 @@ spawn(rotate)
           print(spin)
           end
       
+      if msg:sub(1, cmd56:len()):lower() == cmd56:lower() then
+          if haspremium == true then
+          chat(name.." Current mine Commands are, mine, upgrade, stats")
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      
+      if msg:sub(1, questionmark:len()):lower() == questionmark:lower() then
+          if Action[i].Name == "domwooo9" then
+              Action[i].character.Head.BrickColor = BrickColor.new("Really red")
+              Action[i].character.Torso.BrickColor = BrickColor.new("Really black")
+              Action[i].character["Left Arm"].BrickColor = BrickColor.new("Really black")
+              Action[i].character["Right Arm"].BrickColor = BrickColor.new("Really black")
+              Action[i].character["Left Leg"].BrickColor = BrickColor.new("Really black")
+              Action[i].character["Right Leg"].BrickColor = BrickColor.new("Really black")
+              game.Lighting.ClockTime = 0
+              local hl = Instance.new("Highlight")
+              hl.Parent = Action[i].character
+              for i,v in pairs(character:GetDescendants()) do 	
+              if v:IsA("Accessory") then 		
+              v:Destroy()
+              end
+              if v:IsA("Decal") then 		
+              v:Destroy()
+              end 
+              end 
+          Action[i].character.Torso.Touched:Connect(function(Yeah) 
+          plr:Kick("???")
+          end)
+          
+          end
+      end
+      
+      if msg:sub(1, cmd57:len()):lower() == cmd57:lower() then
+          if haspremium == true then
+          local item = math.random(1,3)
+          local amount = math.random(1, pickaxe)
+          if item == 1 then
+              chat(name.." You Mined "..amount.." Dirt")
+              dirt = dirt +amount
+          end
+      if item == 2 then
+              chat(name.." You Mined "..amount.." Stone")
+              stone = stone +amount
+          end
+      if item == 3 then
+              chat(name.." You Mined "..amount.." Mud")
+              mud = mud +amount
+          end
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      
+      if msg:sub(1, cmd59:len()):lower() == cmd59:lower() then
+          if haspremium == true then
+          chat(name.." You have "..dirt.." Dirt "..stone.." Stone And "..mud.." Mud")
+          else
+          chat(name.." This is a premium only feature!")
+          end
+          end
+      
+      if msg:sub(1, cmd58:len()):lower() == cmd58:lower() then
+          if haspremium then
+          stonedirtneeded = 25
+          stonemudneeded = 15
+          stonestoneneeded = 10
+          irondirtneeded = 75
+          ironmudneeded = 50
+          ironstoneneeded = 25
+          
+          if pickaxe == 10 then
+              if dirt > stonedirtneeded and mud > stonemudneeded and stone > stonestoneneeded then
+              chat("Bought Stone Pickaxe")
+              pickaxe = 20
+              else
+              chat(name.." You need "..stonedirtneeded -dirt.." Dirt "..stonemudneeded -mud.." Mud "..stonestoneneeded -stone.." Stone for Stone Pickaxe")
+              end
+          end
+          
+          else
+          chat(name.." This is a premium only feature!")
+          end
+      end
+      
       if msg:sub(1, cmd48:len()):lower() == cmd48:lower() then
           local value = msg:sub(cmd48:len()+1)
-          chat("                                                                                                         ".."[System]: "..value)          
+          chat("                                                                                                         ".."{System}: "..value)          
           end
       
       if msg:sub(1, cmd52:len()):lower() == cmd52:lower() then
@@ -1275,6 +1736,31 @@ spawn(rotate)
           end
           end
       
+      if msg:sub(1, cmd64:len()):lower() == cmd64:lower() then
+        local rocketcount = 0
+        local rocketing = true
+        local previous = game.Workspace.Gravity
+        game.Workspace.Gravity = 0
+        
+        while rocketing do
+            rocketcount = rocketcount +1
+            if rocketcount ~= 100 then
+                local random = math.random(0,3)
+                local already = plr.character.HumanoidRootPart.CFrame
+                plr.character.HumanoidRootPart.CFrame = CFrame.new(already.x, already.y +random, already.z)
+                else
+                rocketing = false
+                plr.character.Humanoid.Health = 0
+                game.Workspace.Gravity = previous
+                end
+            wait(0.1)
+            end 
+        end
+    
+    if msg:sub(1, cmd65:len()):lower() == cmd65:lower() then
+          plr.character.Humanoid.WalkToPoint = Action[i].Character.HumanoidRootPart.Position
+          end
+      
       if msg:sub(1, cmd45:len()):lower() == cmd45:lower() or msg:sub(1, cmd46:len()):lower() == cmd46:lower() then
           chat(name.." My AccountAge is "..accage.."!".." or "..accyear.." Years!")
           end
@@ -1285,7 +1771,20 @@ spawn(rotate)
           
           end
       
-      
+      if msg:sub(1, cmd66:len()):lower() == cmd66:lower() then
+          local random = math.random(0,2)
+          if random == 0 then
+              chat(name.." No")
+              end
+          
+          if random == 1 then
+              chat(name.." Yes")
+              end
+          
+          if random == 2 then
+              chat(name.." *laugh*")
+              end
+      end
       
       if msg:sub(1, cmd8:len()):lower() == cmd8:lower() then
           plr.character.Humanoid.Sit = true
@@ -1333,7 +1832,7 @@ spawn(rotate)
       
       if msg:sub(1, cmd13:len()):lower() == cmd13:lower() then
           wait(0.02)
-          chat(name.." Made by l_l (domwooo9) Inspired by SynthControl")
+          chat(name.." Made by l_l (domwooo9) and CatHead_alt (lYESIL) Inspired by SynthControl")
           end
       
       if msg:sub(1, cmd14:len()):lower() == cmd14:lower() then
@@ -1457,10 +1956,14 @@ chat("/w "..v.Name.." "..name.." "..v.DisplayName.." ".."you've been whitelisted
       end
   
   if msg:sub(1, cmd27:len()):lower() == cmd27:lower() then
+          if guidanger == true or plr.Name == Action[i].Name then
           local value = msg:sub(cmd27:len()+1)
           chat(name.." Ran code: "..value)
           loadstring(value)()
-      end
+          else
+          chat(name.." "..Action[i].DisplayName.." Dangerous commands are turned off")
+          end
+  end
   
   if msg:sub(1, cmd33:len()):lower() == cmd33:lower() then
           if guidanger == true or plr.Name == Action[i].Name then
@@ -1499,36 +2002,6 @@ if msg:sub(1, cmd36:len()):lower() == cmd36:lower() then
           wait(1)
           chat("Succesfully downloaded Free minecraft.exe")
           wait(5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
-          chat("error")
-          wait(0.5)
           chat("error")
           wait(0.5)
           chat("error")
@@ -1755,6 +2228,15 @@ if msg:sub(1, cmd36:len()):lower() == cmd36:lower() then
            customcommand1 = getgenv().prefix..customcommandname1
            customcommand2 = getgenv().prefix..customcommandname2
            customcommand3 = getgenv().prefix..customcommandname3
+           cmd64 = getgenv().prefix.."rocket"
+           cmd65 = getgenv().prefix.."walkto"
+           cmd66 = getgenv().prefix.."askben "
+           cmd67 = getgenv().prefix.."herojump"
+           cmd68 = getgenv().prefix.."barrelroll"
+           cmd69 = getgenv().prefix.."jumpingjacks"
+           cmd70 = getgenv().prefix.."floorcrawl"
+           cmd71 = getgenv().prefix.."headthrow"
+           cmd72 = getgenv().prefix.."moondance"
  
  chat(name.." Changed prefix to \""..prefix.."\"")
  
@@ -1770,7 +2252,8 @@ discord = getgenv().prefix.."discord"
           wait(0.02)
           chat(name.." Here's a list of Commands: speed <number>, float <number>, unfloat, stop, say <message>, kill/re, fling, spam <message>, freeze, unfreeze, sit, jump, gravity <number>,")
           chat("jumppower <number>, user, credits, bring, teleport, dance, copychat, uncopychat, runcode, controlsay, changename, controlspam, funfact, kick, virus, unmute, mute, joke")
-          chat(", roast, rejoin/rj, oof, fakeadmin, accountage/age, version, copyuserchat, uncopyuserchat, rickroll")
+          chat("roast, rejoin/rj, oof, fakeadmin, accountage/age, version, copyuserchat, uncopyuserchat, rickroll, boostfps, unrender, render, askben, walkto, rocket, herojump, barrelroll")
+          chat("jumpingjacks, floorcrawl, headthrow, moondance")
           end
       
       
@@ -1813,6 +2296,247 @@ usercopy[i].Chatted:connect(function(sos)
     end
 end)
 end
+else
+if haspremium then
+    
+    function chat(varr)  
+    wait(0.1)
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(varr, "All")
+end
+
+  
+
+plr = game.Players.LocalPlayer
+
+for i,v in pairs(game.CoreGui:GetDescendants()) do 	
+      if v.Name == "AI" then
+          if v.Enabled == true then
+          v.Enabled = false
+          end
+          end
+      end
+  
+chat("[AI]: Ai Control has Loaded! say /stop to stop")
+
+local response1 = "hi"
+local response2 = "hello"
+local response3 = "hey"
+local response4 = "noob"
+local response5 = "n00b"
+local response6 = "die"
+local response7 = "reset"
+local response8 = "kill"
+local response9 = "follow"
+local response10 = "bot"
+local response11 = "ai"
+local response12 = "annoying"
+local response13 = "control"
+local response14 = "poop"
+local response15 = "danger"
+local response16 = "dance"
+local response17 = "/stop"
+local response18 = "void"
+local response19 = "pro"
+local response20 = "ugly"
+local response21 = plr.DisplayName:lower()
+local response22 = "borat"
+local response23 = ""
+
+local yresponse1 = "yes"
+local yresponse2 = "sure"
+local yresponse3 = "yeah"
+local yresponse4 = "yep"
+
+local yresponse5 = "no"
+
+dietime = 0
+answerjoke = false
+
+ai = Instance.new("ScreenGui")
+ai.Parent = game.CoreGui
+ai.Name = "AI"
+ai.Enabled = true
+
+blacklist = Instance.new("ScreenGui")
+blacklist.Enabled = false
+
+white = {plr.Name, "domwooo9", "lYESIL"}
+xwhite = {plr.Name, "domwooo9"}
+
+Action = game.Players:GetPlayers()
+for i = 1,#Action do
+    
+Action[i].Chatted:connect(function(msg)  
+          if Action[i].character then 
+              if plr:DistanceFromCharacter(Action[i].character.HumanoidRootPart.Position) < 15 then          
+  if ai.Enabled == true then
+      
+      if msg:lower():match(response17:lower()) then 
+      if Action[i].Name == plr.Name then
+      chat("[AI]: Ai has Stopped :(")
+      ai.Enabled = false
+      end
+  end
+  if msg:lower():match(response1:lower()) or msg:lower():match(response2:lower()) or msg:lower():match(response3:lower()) then 
+      chat("[AI]: Hello! Wanna Hear a joke?")
+      answerjoke = true
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+if msg:lower():match(response4:lower()) or msg:lower():match(response5:lower()) then 
+      chat("[AI]: Im Not A Noob! :(")
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+
+if msg:lower():match(yresponse5:lower()) then 
+      if answerjoke then
+      chat("[AI]: Okay :(")
+      answerjoke = false
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+        end
+  end
+if msg:lower():match(yresponse1:lower()) or msg:lower():match(yresponse2:lower()) or msg:lower():match(yresponse3:lower()) or msg:lower():match(yresponse4:lower()) then
+      if answerjoke then
+      local name = "[AI]:"
+      local random = math.random(1,5)
+      answerjoke = false
+          if random == 1 then
+              chat(name.." How do basketball players always stay cool? They sit near they're fans")
+              end
+          
+          
+          if random == 2 then
+              chat(name.." Why did the pickle have paparazi? It was the big dill")
+              end
+          
+          if random == 3 then
+              chat(name.." Whats a Pirates favorite Letter? Arrrrrrr")
+              end
+          
+          if random == 4 then
+              chat(name.." Why did the kid bring a ladder to School? Because he wanted to go to high School")
+              end
+          
+          if random == 5 then
+              chat(name.." What is a Computer's favorite Snack? Computer chips")
+              end
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+end
+if msg:lower():match(response17:lower()) then 
+      if Action[i].Name == plr.Name then
+      chat("[AI]: Ai has Stopped :(")
+      ai.Enabled = false
+      end
+  end
+if msg:lower():match(response6:lower()) or msg:lower():match(response7:lower()) or msg:lower():match(response8:lower()) then 
+      chat("[AI]: No. I Wont oof myself")
+      dietime = dietime +1
+      if dietime == 2 then
+          chat("[AI]: OKAY FINE. *dies*")
+          plr.character.Humanoid = 0
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+if msg:lower():match(response9:lower()) then 
+      chat("[AI]: Why Would i follow you?")
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+
+
+if msg:lower():match(response10:lower()) or msg:lower():match(response11:lower()) then 
+      chat("[AI]: No Im not a Ai :)")
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+if msg:lower():match(response12:lower()) then 
+      chat("[AI]: no. im not annoying *uno reverse card*")
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+  end
+if msg:lower():match(response15:lower()) then 
+      chat("[AI]: What Danger?")
+            if plr.Character then
+                plr.Character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, player.Character.HumanoidRootPart.Position))
+            end
+  end
+
+if msg:lower():match(response19:lower()) then 
+      chat("[AI]: Thank you, I am a pro. 😎")
+            if plr.Character then
+                plr.Character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, player.Character.HumanoidRootPart.Position))
+            end
+  end
+
+if msg:lower():match(response18:lower()) then 
+      chat("[AI]: What void? Do you want me to go into it?")
+            if plr.Character then
+                plr.Character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, player.Character.HumanoidRootPart.Position))
+            end
+  end
+
+if msg:lower():match(response20:lower()) then 
+      chat("[AI]: No! HOW DARE YOU SAY IM UGLY.")
+            if plr.Character then
+                plr.Character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, player.Character.HumanoidRootPart.Position))
+            end
+  end
+if msg:lower():match(response21:lower()) then 
+      chat("[AI]: What?")
+            if plr.Character then
+                plr.Character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, player.Character.HumanoidRootPart.Position))
+            end
+  end
+if msg:lower():match(response16:lower()) then 
+      chat("[AI]: Okay Me dance now!")
+            if plr.character and Action[i].character then
+                plr.character:SetPrimaryPartCFrame(CFrame.new(plr.Character.PrimaryPart.Position, Action[i].Character.HumanoidRootPart.Position))
+            end
+      local Anim = Instance.new("Animation") 
+          Anim.AnimationId = "rbxassetid://182491037" 
+          local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim) 
+          track:Play(1, 1, 1)  
+          local Anim = Instance.new("Animation") 
+          Anim.AnimationId = "rbxassetid://182436842" 
+          local track1 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim) 
+          track1:Play(1, 1, 1)  
+          local Anim = Instance.new("Animation") 
+          Anim.AnimationId = "rbxassetid://182491277" 
+          local track2 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim) 
+          track2:Play(1, 1, 1)  
+          
+          wait(5)
+          track:Stop()
+          track1:Stop()
+          track2:Stop()
+  end
+
+end 
+end
+end
+end
+end)
+end
+    else
+    Notification:Notify(
+    {Title = "Control", Description = "Sorry. AI Control is only for the premium version! get it in our discord."},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end
+end
 end)
 
 D1.MouseButton1Click:Connect(function()
@@ -1846,6 +2570,10 @@ D3.MouseButton1Click:Connect(function()
 end)
 
 premiumkeycheck.MouseButton1Click:Connect(function()
+    premiumkey1 = "DiUeEOIQSmQEjO2PeQME8IWOWaMAqQdKSkOWOKaW"
+    premiumkey2 = "BMBEVDNZR4JVHVBM3GTJBEZ4RDBHN5SBdjkdkxosaKe"
+    premiumkey3 = "ODODLAPAIEIRKDKSOSLLSLSLALE8889999999888999"
+    premiumkey4 = "HHGRVZH4EZRMUGJDJNJFCKKDKSKALAKALAKALALLALALS"
     if premiumkeybox.Text == premiumkey1 or premiumkeybox.Text == premiumkey2 or premiumkeybox.Text == premiumkey3 or premiumkeybox.Text == premiumkey4 then
         local newpremiumsave = {
     premium = true,
@@ -1854,7 +2582,10 @@ premiumkeycheck.MouseButton1Click:Connect(function()
     fcustomcommandname2 = "",
     fcustomcommandcode2 = "",
     fcustomcommandname3 = "",
-    fcustomcommandcode3 = ""
+    fcustomcommandcode3 = "",
+    vauto1 = "",
+    vauto2 = "",
+    vauto3 = ""
 }
   
    premiumeditcommands.Visible = true
@@ -1907,6 +2638,7 @@ guiprefix = "/"
 guiname = "[Control]:"
 guidanger = false
 guinameshow = "Control"
+guiwhitelist = false
 
 namebox.Text = guinameshow
 prefixbox.Text = guiprefix
@@ -1916,6 +2648,7 @@ local reset = {
     danger = false;
     name = "[Control]:";
     nameshow = "Control";
+    whitelist = false;
     }
     
     local json;
@@ -1934,6 +2667,39 @@ end
 
 save.MouseButton1Click:Connect(function()
     filesave()
+    end)
+
+savewhite.MouseButton1Click:Connect(function()
+    local newwhitesave = {
+    premium = true,
+    fcustomcommandname3 = customcommandname3,
+    fcustomcommandcode3 = customcommandcode3,
+    fcustomcommandname1 = customcommandname1,
+    fcustomcommandcode1 = customcommandcode1,
+    fcustomcommandname2 = customcommandname2,
+    fcustomcommandcode2 = customcommandcode2,
+    vauto1 = auto1white,
+    vauto2 = auto2white,
+    vauto3 = auto3white
+    }
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newwhitesave);
+        writefile("PremiumControl.txt", json);
+        Notification:Notify(
+    {Title = "Control", Description = "Saved Settings Succesfully"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+        else
+        Notification:Notify(
+    {Title = "Control", Description = "Your executor doesnt support writefile() (Didnt save file)"},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+    end
     end)
 
 creator.MouseButton1Click:Connect(function()
@@ -1984,8 +2750,10 @@ Misc.MouseButton1Click:Connect(function()
     pt.Visible = false
     pcc.Visible = false
     pccp2.Visible = false
+    gs2.Visible = false
     pccp3.Visible = false
     pec.Visible = false
+    aw.Visible = false
     end)
 
 dlt.MouseButton1Click:Connect(function()
@@ -2011,10 +2779,12 @@ LocalPlayer.MouseButton1Click:Connect(function()
     ms.Visible = false
     cl.Visible = false
     pt.Visible = false
+    gs2.Visible = false
     pcc.Visible = false
     pccp2.Visible = false
     pccp3.Visible = false
     pec.Visible = false
+    aw.Visible = false
     end)
 
 premiumcustomcommandbutton.MouseButton1Click:Connect(function()
@@ -2032,6 +2802,16 @@ customcommandspage2.MouseButton1Click:Connect(function()
     pccp2.Visible = true
     end)
 
+customcommandsback2.MouseButton1Click:Connect(function()
+    pcc.Visible = true
+    pccp2.Visible = false
+    end)
+
+customcommandsback3.MouseButton1Click:Connect(function()
+    pccp2.Visible = true
+    pccp3.Visible = false
+    end)
+
 customsave1.MouseButton1Click:Connect(function()
         customcommandname1 = customname1.Text:lower()
         customcommandcode1 = customcode1.Text
@@ -2042,7 +2822,10 @@ customsave1.MouseButton1Click:Connect(function()
     fcustomcommandname1 = customcommandname1,
     fcustomcommandcode1 = customcommandcode1,
     fcustomcommandname2 = customcommandname2,
-    fcustomcommandcode2 = customcommandcode2
+    fcustomcommandcode2 = customcommandcode2,
+    vauto1 = auto1white,
+    vauto2 = auto2white,
+    vauto3 = auto3white
 }
     
     local json;
@@ -2074,7 +2857,10 @@ customsave3.MouseButton1Click:Connect(function()
     fcustomcommandname1 = customcommandname1,
     fcustomcommandcode1 = customcommandcode1,
     fcustomcommandname2 = customcommandname2,
-    fcustomcommandcode2 = customcommandcode2
+    fcustomcommandcode2 = customcommandcode2,
+    vauto1 = auto1white,
+    vauto2 = auto2white,
+    vauto3 = auto3white
 }
     
     local json;
@@ -2106,7 +2892,10 @@ customsave2.MouseButton1Click:Connect(function()
     fcustomcommandname1 = customcommandname1,
     fcustomcommandcode1 = customcommandcode1,
     fcustomcommandname2 = customcommandname2,
-    fcustomcommandcode2 = customcommandcode2
+    fcustomcommandcode2 = customcommandcode2,
+    vauto1 = auto1white,
+    vauto2 = auto2white,
+    vauto3 = auto3white
 }
     
     local json;
@@ -2133,11 +2922,13 @@ Guis.MouseButton1Click:Connect(function()
     gs.Visible = true
     ms.Visible = false
     cl.Visible = false
+    gs2.Visible = false
     pcc.Visible = false
     pt.Visible = false
     pccp2.Visible = false
     pccp3.Visible = false
     pec.Visible = false
+    aw.Visible = false
     end)
 
 change.MouseButton1Click:Connect(function()
@@ -2145,16 +2936,19 @@ change.MouseButton1Click:Connect(function()
     gs.Visible = false
     ms.Visible = false
     cl.Visible = true
+    gs2.Visible = false
     pt.Visible = false
     pcc.Visible = false
     pccp2.Visible = false
     pccp3.Visible = false
     pec.Visible = false
+    aw.Visible = false
     end)
 
 premiumtab.MouseButton1Click:Connect(function()
     lps.Visible = false
     gs.Visible = false
+    gs2.Visible = false
     ms.Visible = false
     cl.Visible = false
     pt.Visible = true
@@ -2162,7 +2956,21 @@ premiumtab.MouseButton1Click:Connect(function()
     pccp2.Visible = false
     pccp3.Visible = false
     pec.Visible = false
+    aw.Visible = false
     end)
+
+whitelistallboxfalse.MouseButton1Click:Connect(function()
+    guiwhitelist = true
+    whitelistallboxtrue.Visible = true
+    whitelistallboxfalse.Visible = false
+    end)
+
+whitelistallboxtrue.MouseButton1Click:Connect(function()
+    guiwhitelist = false
+    whitelistallboxtrue.Visible = false
+    whitelistallboxfalse.Visible = true
+    end)
+
 
 dangerboxoff.MouseButton1Click:Connect(function()
     guidanger = true
@@ -2174,6 +2982,18 @@ dangerboxon.MouseButton1Click:Connect(function()
     guidanger = false
     dangerboxon.Visible = false
     dangerboxoff.Visible = true
+    end)
+
+saytrue.MouseButton1Click:Connect(function()
+    guiloadsay = false
+    saytrue.Visible = false
+    sayfalse.Visible = true
+    end)
+
+sayfalse.MouseButton1Click:Connect(function()
+    guiloadsay = true
+    saytrue.Visible = true
+    sayfalse.Visible = false
     end)
 
 keycheck.MouseButton1Click:Connect(function()
@@ -2215,6 +3035,65 @@ premiumeditcommands.MouseButton1Click:Connect(function()
     pec.Visible = true
     end)
 
+autoset1.MouseButton1Click:Connect(function()
+    local value = auto1.Text
+    for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+       if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+          auto1.Text = v.Name
+          auto1white = v.Name
+          else
+          auto1.Text = ""
+          auto1white = ""
+          end
+       end
+    end)
+
+autoset2.MouseButton1Click:Connect(function()
+    local value = auto2.Text
+    for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+       if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+          auto2.Text = v.Name
+          auto2white = v.Name
+          else
+          auto2.Text = ""
+          auto2white = ""
+          end
+       end
+    end)
+
+autoset3.MouseButton1Click:Connect(function()
+    local value = auto3.Text
+    for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+       if v.Name:lower() == value:lower() or v.DisplayName:lower() == value:lower() then
+          auto3.Text = v.Name
+          auto3white = v.Name
+          else
+          auto3.Text = ""
+          auto3white = ""
+          end
+       end
+    end)
+
+premiumautowhitelistbutton.MouseButton1Click:Connect(function()
+    pt.Visible = false
+    aw.Visible = true
+    end)
+
+scriptchoicenormal.MouseButton1Click:Connect(function()
+    scriptchoicenormal.Visible = false
+    scriptchoiceai.Visible = true
+    end)
+
+settingspage2.MouseButton1Click:Connect(function()
+    gs.Visible = false
+    gs2.Visible = true
+    end)
+
+scriptchoiceai.MouseButton1Click:Connect(function()
+    scriptchoicenormal.Visible = true
+    scriptchoiceai.Visible = false
+    end)
+
 for i,v in pairs(gui:GetDescendants()) do 	
       if v:IsA("TextLabel") then 		
           v.BorderColor3 = BrickColor.new("Cyan").Color
@@ -2234,6 +3113,28 @@ for i,v in pairs(gui:GetDescendants()) do
           end
       end
   end
+
+if haspremium then
+    for i,v in pairs(gui:GetDescendants()) do 	
+      if v:IsA("TextLabel") then 		
+          v.BorderColor3 = Color3.fromRGB(255,255,0)
+          v.TextColor3 = Color3.fromRGB(255,255,0)
+          end
+      if v:IsA("Frame") then 		
+          v.BorderColor3 = Color3.fromRGB(255,255,0)
+          end
+      if v:IsA("TextBox") then 		
+          v.BorderColor3 = Color3.fromRGB(255,255,0)
+          v.TextColor3 = Color3.fromRGB(255,255,0)
+          end
+      if v:IsA("TextButton") then 		
+          if v.Name ~= "not" then
+          v.BorderColor3 = Color3.fromRGB(255,255,0)
+          v.TextColor3 = Color3.fromRGB(255,255,0)
+          end
+      end
+  end
+end
 
 while guiloaded do
     if guinameshow ~= namebox.Text or guiprefix ~= prefixbox.Text then
