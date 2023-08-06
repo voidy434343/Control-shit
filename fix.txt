@@ -1,0 +1,44 @@
+local newpremiumsave = {
+    premium = false,
+    fcustomcommandname1 = "",
+    fcustomcommandcode1 = "",
+    fcustomcommandname2 = "",
+    fcustomcommandcode2 = "",
+    fcustomcommandname3 = "",
+    fcustomcommandcode3 = "",
+    vauto1 = "",
+    vauto2 = "",
+    vauto3 = ""
+}
+  
+   
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(newpremiumsave);
+        writefile("PremiumControl.txt", json);
+        end
+    
+    if (writefile) then
+
+guiprefix = "/"
+guiname = "[Control]:"
+guidanger = false
+guinameshow = "Control"
+guiwhitelist = false
+
+local reset = {
+    prefix = "/";
+    danger = false;
+    name = "[Control]:";
+    nameshow = "Control";
+    whitelist = false;
+    }
+    
+    local json;
+    local HttpService = game:GetService("HttpService");
+    if (writefile) then
+        json = HttpService:JSONEncode(reset);
+        writefile("Control.txt", json);
+    end
+end
