@@ -1,6 +1,13 @@
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
 
+setclipboard("https://discord.com/invite/XNkhrt8ncJ")
+Notification:Notify(
+    {Title = "Control", Description = "A Remake is being made! A Link to the discord has been copied to your clipboard."},
+    {OutlineColor = BrickColor.new("Cyan").Color,Time = 5, Type = "image"},
+    {Image = "http://www.roblox.com/asset/?id=13787242264", ImageColor = Color3.fromRGB(255,255,255)}
+)
+
 guiloadsay = true
 
 if (identifyexecutor) then
@@ -1448,7 +1455,7 @@ end
 
 Action = game.Players:GetPlayers()
 for i = 1,#Action do
-    
+        print(Action[i])
 Action[i].Chatted:connect(function(msg)
   local character = Action[i].character
   local uname = Action[i].Name
